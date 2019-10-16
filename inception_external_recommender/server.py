@@ -5,8 +5,10 @@ from typing import Dict
 from flask import Flask, request, jsonify
 
 from inception_external_recommender.classifier import Classifier
+from inception_external_recommender.contrib.sklearn import SklearnSentenceClassifier
 from inception_external_recommender.contrib.spacy import SpacyNerClassifier, SpacyPosClassifier
-from inception_external_recommender.protocol import parse_prediction_request
+from inception_external_recommender.protocol import parse_prediction_request, parse_training_request
+from inception_external_recommender.util import setup_logging
 
 
 class Server:
@@ -15,8 +17,8 @@ class Server:
         self._app = Flask(__name__)
         self._classifiers = {}
 
-        self._app.add_url_rule("/<model_name>/predict", "predict", self._predict, methods=["POST"])
-        self._app.add_url_rule("/<model_name>/train", "train", self._train, methods=["POST"])
+        self._app.add_url_rule("/<classifier_name>/predict", "predict", self._predict, methods=["POST"])
+        self._app.add_url_rule("/<classifier_name>/train", "train", self._train, methods=["POST"])
 
         print(self._app.url_map)
 
@@ -26,25 +28,36 @@ class Server:
     def start(self):
         self._app.run(debug=True, host='0.0.0.0')
 
-    def _predict(self, model_name: str):
-        if model_name not in self._classifiers:
-            return "Model with name [{0}] not found!".format(model_name), HTTPStatus.NOT_FOUND.value
+    def _predict(self, classifier_name: str):
+        if classifier_name not in self._classifiers:
+            return "Classifier with name [{0}] not found!".format(classifier_name), HTTPStatus.NOT_FOUND.value
 
         json_data = request.get_json()
 
         req = parse_prediction_request(json_data)
-        classifier = self._classifiers[model_name]
-        classifier.predict(req.document, req.layer, req.feature, req.project_id, req.document_id, req.user_id)
+        classifier = self._classifiers[classifier_name]
+        classifier.predict(req.cas, req.layer, req.feature, req.project_id, req.document_id, req.user_id)
 
-        result = jsonify(document=req.document.to_xmi())
+        result = jsonify(document=req.cas.to_xmi())
         return result
 
-    def _train(self, model_name: str):
-        return model_name
+    def _train(self, classifier_name: str):
+        if classifier_name not in self._classifiers:
+            return "Classifier with name [{0}] not found!".format(classifier_name), HTTPStatus.NOT_FOUND.value
+
+        json_data = request.get_json()
+        req = parse_training_request(json_data)
+        classifier = self._classifiers[classifier_name]
+        classifier.fit(req.documents, req.layer, req.feature, req.project_id)
+
+        return classifier_name
 
 
 if __name__ == '__main__':
+    setup_logging()
+
     server = Server()
     server.add_classifier("spacy_ner", SpacyNerClassifier("en"))
     server.add_classifier("spacy_pos", SpacyPosClassifier("en"))
+    server.add_classifier("sklearn_sentence", SklearnSentenceClassifier())
     server.start()
