@@ -1,0 +1,7 @@
+sklearn
+wget
+flask
+filelock
+dkpro-cassis
+joblib
+spacy
