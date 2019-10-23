@@ -6,7 +6,7 @@ import wget
 
 def setup_logging():
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
+    logging.basicConfig(level=logging.DEBUG, format=log_fmt)
 
 
 def download_file(url: str, target_path: Path):

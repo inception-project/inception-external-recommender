@@ -198,3 +198,4 @@ dmypy.json
 /datasets/
 
 /venv/
+*.joblib

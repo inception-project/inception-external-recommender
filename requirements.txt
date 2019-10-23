@@ -5,3 +5,4 @@ filelock
 dkpro-cassis
 joblib
 spacy
+gunicorn

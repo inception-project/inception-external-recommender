@@ -1,14 +1,9 @@
-import json
 from http import HTTPStatus
-from typing import Dict
 
 from flask import Flask, request, jsonify
 
 from inception_external_recommender.classifier import Classifier
-from inception_external_recommender.contrib.sklearn import SklearnSentenceClassifier
-from inception_external_recommender.contrib.spacy import SpacyNerClassifier, SpacyPosClassifier
 from inception_external_recommender.protocol import parse_prediction_request, parse_training_request
-from inception_external_recommender.util import setup_logging
 
 
 class Server:
@@ -51,13 +46,3 @@ class Server:
         classifier.fit(req.documents, req.layer, req.feature, req.project_id)
 
         return classifier_name
-
-
-if __name__ == '__main__':
-    setup_logging()
-
-    server = Server()
-    server.add_classifier("spacy_ner", SpacyNerClassifier("en"))
-    server.add_classifier("spacy_pos", SpacyPosClassifier("en"))
-    server.add_classifier("sklearn_sentence", SklearnSentenceClassifier())
-    server.start()

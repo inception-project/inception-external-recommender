@@ -1,3 +1,4 @@
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -6,6 +7,8 @@ from typing import Any, Optional, ContextManager
 from filelock import Timeout, FileLock
 
 import joblib
+
+logger = logging.getLogger(__file__)
 
 
 class ModelManager:
@@ -27,7 +30,12 @@ class ModelManager:
 
     def load_model(self, classifier_name: str, user_id: str) -> Optional[Any]:
         model_path = self._get_model_path(classifier_name, user_id)
-        return joblib.load(model_path)
+        if model_path.is_file():
+            logger.debug("Model found for [%s]", model_path)
+            return joblib.load(model_path)
+        else:
+            logger.debug("No model found for [%s]", model_path)
+            return None
 
     def save_model(self, classifier_name: str, user_id: str, model: Any):
         model_path = self._get_model_path(classifier_name, user_id)
@@ -41,4 +49,5 @@ class ModelManager:
     def _get_lock(self, classifier_name: str, user_id: str) -> FileLock:
         model_path = self._get_model_path(classifier_name, user_id)
         lock_path = model_path.with_suffix(".lock")
-        return FileLock(lock_path)
+        lock_path.parent.mkdir(exist_ok=True, parents=True)
+        return FileLock(lock_path, timeout=10)
