@@ -20,8 +20,6 @@ class Server:
         self._app.add_url_rule("/<classifier_name>/predict", "predict", self._predict, methods=["POST"])
         self._app.add_url_rule("/<classifier_name>/train", "train", self._train, methods=["POST"])
 
-        print(self._app.url_map)
-
     def add_classifier(self, name: str, classifier: Classifier):
         self._classifiers[name] = classifier
 
@@ -71,7 +69,7 @@ class Server:
             threading.Thread(target=_fn).start()
             return HTTPStatus.NO_CONTENT.description, HTTPStatus.NO_CONTENT.value
         except Timeout:
-            logger.debug("Already training [%s] for user [%s], skipping!", classifier_name, user_id)
+            logger.info("Already training [%s] for user [%s], skipping!", classifier_name, user_id)
             return HTTPStatus.TOO_MANY_REQUESTS.description, HTTPStatus.TOO_MANY_REQUESTS.value
 
     def _get_lock(self, classifier: Classifier, user_id: str) -> FileLock:

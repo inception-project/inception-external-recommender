@@ -1,5 +1,4 @@
 import logging
-import time
 from typing import List, Optional
 
 from cassis import Cas
@@ -41,13 +40,9 @@ class SklearnSentenceClassifier(Classifier):
                 sentences.append(cas.get_covered_text(sentence))
                 targets.append(label)
 
-        logger.debug(f"Training on {len(sentences)} sentences")
-        time.sleep(10)
-
         model = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("clf", MultinomialNB())])
         model.fit(sentences, targets)
-        time.sleep(10)
-        logger.debug(f"Training finished")
+        logger.debug(f"Training finished for user [%s]")
 
         self._save_model(user_id, model)
 
