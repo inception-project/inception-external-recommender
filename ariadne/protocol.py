@@ -31,6 +31,10 @@ class TrainingRequest:
     _documents_json: List["TrainingDocument"] = attr.ib()
 
     @property
+    def user_id(self) -> str:
+        return self._documents_json[0]["userId"]
+
+    @property
     def documents(self) -> List["TrainingDocument"]:
         # We parse this lazily as sometimes when already training, we just do not need to parse it at all.
         typesystem = load_typesystem(self._typesystem_xml)

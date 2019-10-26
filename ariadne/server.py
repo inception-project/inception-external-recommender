@@ -52,15 +52,13 @@ class Server:
 
         json_data = request.get_json()
         req = parse_training_request(json_data)
-        user_id = req.documents[0].user_id
+        user_id = req.user_id
         classifier = self._classifiers[classifier_name]
 
         try:
-            # We spawn a thread and run the training in there so that this HTTP request can return directly
-            lock = self._get_lock(classifier.name, user_id)
-
             # The lock needs to be acquired out here, not in the fn scope, else it would
             # just throw the Timeout inside fn.
+            lock = self._get_lock(classifier.name, user_id)
             lock.acquire()
 
             def _fn():
@@ -69,6 +67,7 @@ class Server:
                 finally:
                     lock.release()
 
+            # We spawn a thread and run the training in there so that this HTTP request can return directly
             threading.Thread(target=_fn).start()
             return HTTPStatus.NO_CONTENT.description, HTTPStatus.NO_CONTENT.value
         except Timeout:
