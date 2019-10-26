@@ -28,7 +28,7 @@ class TrainingRequest:
     feature: str = attr.ib()
     project_id: str = attr.ib()
     _typesystem_xml: str = attr.ib()
-    _documents_json: List["TrainingDocument"] = attr.ib()
+    _documents_json: List[Dict[str, str]] = attr.ib()
 
     @property
     def user_id(self) -> str:
@@ -46,6 +46,7 @@ class TrainingRequest:
             training_documents.append(TrainingDocument(cas, document_id, user_id))
 
         return training_documents
+
 
 @attr.s
 class TrainingDocument:

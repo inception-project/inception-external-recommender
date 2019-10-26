@@ -22,6 +22,3 @@ def download_file(url: str, target_path: Path):
         return
 
     wget.download(url, str(target_path.resolve()))
-
-
-
