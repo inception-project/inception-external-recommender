@@ -4,7 +4,7 @@ import tarfile
 
 from cassis import Cas, TypeSystem
 
-from inception_external_recommender.util import download_file, setup_logging
+from ariadne.util import download_file, setup_logging
 from scripts.util import write_sentence_documents
 
 PATH_ROOT: Path = Path(__file__).resolve().parents[1]
@@ -48,7 +48,7 @@ def main():
 
     sentences_per_doc = 200
     for idx, i in enumerate(range(0, len(docs), sentences_per_doc)):
-        slice = docs[i:i + sentences_per_doc]
+        slice = docs[i : i + sentences_per_doc]
         sentences, labels = read_data(slice)
 
         doc_name = PATH_DATASETS_IMDB_EXTRACTED / f"imdb_{idx}_labeled.xmi"
@@ -58,5 +58,5 @@ def main():
     write_sentence_documents(sentences, labels, PATH_DATASETS_IMDB_EXTRACTED / f"imdb_unlabeled.xmi", labeled=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

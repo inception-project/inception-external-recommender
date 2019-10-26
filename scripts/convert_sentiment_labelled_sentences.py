@@ -5,7 +5,7 @@ import zipfile
 from cassis import TypeSystem, Cas
 from sklearn.model_selection import train_test_split
 
-from inception_external_recommender.util import setup_logging, download_file
+from ariadne.util import setup_logging, download_file
 from scripts.util import write_sentence_documents
 
 PATH_ROOT: Path = Path(__file__).resolve().parents[1]
@@ -17,12 +17,15 @@ PATH_DATASETS_SLS = PATH_DATASETS / "sls"
 def main():
     setup_logging()
     PATH_DATASETS_SLS.mkdir(exist_ok=True, parents=True)
-    download_file("https://archive.ics.uci.edu/ml/machine-learning-databases/00331/sentiment labelled sentences.zip", PATH_DATASETS_SLS_ZIP)
+    download_file(
+        "https://archive.ics.uci.edu/ml/machine-learning-databases/00331/sentiment labelled sentences.zip",
+        PATH_DATASETS_SLS_ZIP,
+    )
 
     sentences = []
     labels = []
     with zipfile.ZipFile(PATH_DATASETS_SLS_ZIP) as myzip:
-        with myzip.open('sentiment labelled sentences/imdb_labelled.txt') as f:
+        with myzip.open("sentiment labelled sentences/imdb_labelled.txt") as f:
             for i, line in enumerate(f):
                 line = line.decode("utf-8")
                 text, label = line.strip().split("\t")
@@ -37,5 +40,5 @@ def main():
     write_sentence_documents(X_test, y_test, PATH_DATASETS_SLS / f"sls_imdb_unlabeled.xmi", labeled=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

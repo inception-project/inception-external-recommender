@@ -12,10 +12,9 @@ logger = logging.getLogger(__file__)
 
 
 class ModelManager:
-
     def __init__(self, directory: Optional[str] = None):
         if directory is None:
-            directory = Path(__file__).resolve().parents[1]
+            directory = Path(__file__).resolve().parents[1] / "models"
         else:
             directory = Path(directory)
 
@@ -50,4 +49,4 @@ class ModelManager:
         model_path = self._get_model_path(classifier_name, user_id)
         lock_path = model_path.with_suffix(".lock")
         lock_path.parent.mkdir(exist_ok=True, parents=True)
-        return FileLock(lock_path, timeout=10)
+        return FileLock(lock_path, timeout=2)

@@ -199,3 +199,5 @@ dmypy.json
 
 /venv/
 *.joblib
+/lvenv/
+/models/*

@@ -50,7 +50,7 @@ def parse_prediction_request(json_object: JsonDict) -> PredictionRequest:
     document_id = document["documentId"]
     user_id = document["userId"]
 
-    return PredictionRequest(cas, layer, feature, project_id,  document_id, user_id)
+    return PredictionRequest(cas, layer, feature, project_id, document_id, user_id)
 
 
 def parse_training_request(json_object: JsonDict) -> TrainingRequest:

@@ -3,12 +3,11 @@ from typing import List, Iterator
 from cassis import Cas
 from cassis.typesystem import FeatureStructure, Type
 
-from inception_external_recommender.constants import TOKEN_TYPE, IS_PREDICTION, SENTENCE_TYPE
-from inception_external_recommender.protocol import TrainingDocument
+from ariadne.constants import TOKEN_TYPE, IS_PREDICTION, SENTENCE_TYPE
+from ariadne.protocol import TrainingDocument
 
 
 class Classifier:
-
     def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id):
         pass
 
@@ -48,12 +47,11 @@ class Classifier:
         """
         return list(self.iter_tokens(cas))
 
-    def create_prediction(self, cas: Cas, layer: str, feature: str, begin: int, end: int, label: str) -> FeatureStructure:
+    def create_prediction(
+        self, cas: Cas, layer: str, feature: str, begin: int, end: int, label: str
+    ) -> FeatureStructure:
         AnnotationType = cas.typesystem.get_type(layer)
 
-        fields = {'begin': begin,
-                  'end': end,
-                  IS_PREDICTION: True,
-                  feature: label}
+        fields = {"begin": begin, "end": end, IS_PREDICTION: True, feature: label}
         prediction = AnnotationType(**fields)
         return prediction

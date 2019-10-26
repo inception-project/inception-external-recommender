@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import List, Optional
 
 from cassis import Cas
@@ -9,9 +10,9 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
 
-from inception_external_recommender.classifier import Classifier
-from inception_external_recommender.modelmanager import ModelManager
-from inception_external_recommender.protocol import TrainingDocument
+from ariadne.classifier import Classifier
+from ariadne.modelmanager import ModelManager
+from ariadne.protocol import TrainingDocument
 
 
 logger = logging.getLogger(__name__)
@@ -20,16 +21,15 @@ _CLASSIFIER_NAME = "sklearn-sentence-classifier"
 
 
 class SklearnSentenceClassifier(Classifier):
-
     def __init__(self):
-        self._model_manager = ModelManager("")
+        self._model_manager = ModelManager()
 
     def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id):
         user_id = documents[0].user_id
 
         try:
             with self._model_manager.lock_model(_CLASSIFIER_NAME, user_id):
-                logger.debug("Start training")
+                logger.debug("Start training for user [%s]", user_id)
                 sentences = []
                 targets = []
 
@@ -47,18 +47,16 @@ class SklearnSentenceClassifier(Classifier):
                         sentences.append(cas.get_covered_text(sentence))
                         targets.append(label)
 
-                logging.debug(f"Training on {len(sentences)} sentences")
+                logger.debug(f"Training on {len(sentences)} sentences")
 
-                model = Pipeline([
-                    ('vect', CountVectorizer()),
-                    ('tfidf', TfidfTransformer()),
-                    ('clf', MultinomialNB()),
-                ])
+                model = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("clf", MultinomialNB())])
                 model.fit(sentences, targets)
+                time.sleep(10)
+                logger.debug(f"Training finished")
 
                 self._model_manager.save_model(_CLASSIFIER_NAME, user_id, model)
         except Timeout:
-            logger.debug("Already training, skipping!")
+            logger.debug("Already training for user [%s], skipping!", user_id)
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         model: Optional[Pipeline] = self._model_manager.load_model(_CLASSIFIER_NAME, user_id)
