@@ -64,7 +64,7 @@ class Classifier:
         return prediction
 
     def _load_model(self, user_id: str) -> Optional[Any]:
-        model_path = self.get_model_path(user_id)
+        model_path = self._get_model_path(user_id)
         if model_path.is_file():
             logger.debug("Model found for [%s]", model_path)
             return joblib.load(model_path)
@@ -73,13 +73,13 @@ class Classifier:
             return None
 
     def _save_model(self, user_id: str, model: Any):
-        model_path = self.get_model_path(user_id)
+        model_path = self._get_model_path(user_id)
         model_path.parent.mkdir(parents=True, exist_ok=True)
         tmp_model_path = model_path.with_suffix(".joblib.tmp")
         joblib.dump(model, tmp_model_path)
         os.replace(tmp_model_path, model_path)
 
-    def get_model_path(self, user_id: str) -> Path:
+    def _get_model_path(self, user_id: str) -> Path:
         return model_directory / self.name / f"model_{user_id}.joblib"
 
     @property

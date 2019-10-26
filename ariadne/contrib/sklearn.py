@@ -42,7 +42,7 @@ class SklearnSentenceClassifier(Classifier):
 
         model = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("clf", MultinomialNB())])
         model.fit(sentences, targets)
-        logger.debug(f"Training finished for user [%s]")
+        logger.debug(f"Training finished for user [%s]", user_id)
 
         self._save_model(user_id, model)
 
