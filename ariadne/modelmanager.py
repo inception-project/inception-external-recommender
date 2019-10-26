@@ -1,10 +1,7 @@
 import logging
 import os
-import tempfile
 from pathlib import Path
-from typing import Any, Optional, ContextManager
-
-from filelock import Timeout, FileLock
+from typing import Any, Optional
 
 import joblib
 
@@ -19,13 +16,6 @@ class ModelManager:
             directory = Path(directory)
 
         self._directory: Path = directory
-
-    def lock_model(self, classifier_name: str, user_id: str) -> ContextManager:
-        return self._get_lock(classifier_name, user_id)
-
-    def is_training(self, classifier_name: str, user_id: str) -> bool:
-        lock = self._get_lock(classifier_name, user_id)
-        return lock.is_locked
 
     def load_model(self, classifier_name: str, user_id: str) -> Optional[Any]:
         model_path = self._get_model_path(classifier_name, user_id)
@@ -44,9 +34,3 @@ class ModelManager:
 
     def _get_model_path(self, classifier_name: str, user_id: str) -> Path:
         return self._directory / classifier_name / f"model_{user_id}.joblib"
-
-    def _get_lock(self, classifier_name: str, user_id: str) -> FileLock:
-        model_path = self._get_model_path(classifier_name, user_id)
-        lock_path = model_path.with_suffix(".lock")
-        lock_path.parent.mkdir(exist_ok=True, parents=True)
-        return FileLock(lock_path, timeout=2)

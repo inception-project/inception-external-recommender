@@ -8,7 +8,7 @@ from ariadne.protocol import TrainingDocument
 
 
 class Classifier:
-    def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id):
+    def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id, user_id: str):
         pass
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):

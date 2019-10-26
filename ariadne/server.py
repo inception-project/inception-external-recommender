@@ -1,10 +1,13 @@
+import json
 import logging
 from http import HTTPStatus
 import threading
 
+from filelock import Timeout
 from flask import Flask, request, jsonify
 
 from ariadne.classifier import Classifier
+from ariadne.locking import LockManager
 from ariadne.protocol import parse_prediction_request, parse_training_request
 
 logger = logging.getLogger(__name__)
@@ -14,6 +17,7 @@ class Server:
     def __init__(self):
         self._app = Flask(__name__)
         self._classifiers = {}
+        self._lock_manager = LockManager()
 
         self._app.add_url_rule("/<classifier_name>/predict", "predict", self._predict, methods=["POST"])
         self._app.add_url_rule("/<classifier_name>/train", "train", self._train, methods=["POST"])
@@ -49,9 +53,15 @@ class Server:
 
         json_data = request.get_json()
         req = parse_training_request(json_data)
+        user_id = req.documents[0].user_id
         classifier = self._classifiers[classifier_name]
 
-        # We spawn a thread an run the training in there so that this HTTP request can return directly
-        threading.Thread(target=classifier.fit, args=(req.documents, req.layer, req.feature, req.project_id)).start()
-
-        return HTTPStatus.NO_CONTENT.description, HTTPStatus.NO_CONTENT.value
+        try:
+            with self._lock_manager.lock_model(classifier_name, user_id):
+                # We spawn a thread and run the training in there so that this HTTP request can return directly
+                args = (req.documents, req.layer, req.feature, req.project_id, user_id)
+                threading.Thread(target=classifier.fit, args=args).start()
+                return HTTPStatus.NO_CONTENT.description, HTTPStatus.NO_CONTENT.value
+        except Timeout:
+            logger.debug("Already training [%s] for user [%s], skipping!", classifier_name, user_id)
+            return HTTPStatus.TOO_MANY_REQUESTS.description, HTTPStatus.TOO_MANY_REQUESTS.value
