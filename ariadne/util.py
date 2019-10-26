@@ -3,6 +3,8 @@ from pathlib import Path
 
 import wget
 
+from ariadne import model_directory
+
 
 def setup_logging():
     log_fmt = "%(process)d-%(thread)d %(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -20,3 +22,6 @@ def download_file(url: str, target_path: Path):
         return
 
     wget.download(url, str(target_path.resolve()))
+
+
+

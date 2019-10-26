@@ -10,19 +10,13 @@ from sklearn.pipeline import Pipeline
 
 
 from ariadne.classifier import Classifier
-from ariadne.modelmanager import ModelManager
 from ariadne.protocol import TrainingDocument
 
 
 logger = logging.getLogger(__name__)
 
-_CLASSIFIER_NAME = "sklearn-sentence-classifier"
-
 
 class SklearnSentenceClassifier(Classifier):
-    def __init__(self):
-        self._model_manager = ModelManager()
-
     def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id, user_id: str):
         logger.debug("Start training for user [%s]", user_id)
         sentences = []
@@ -48,16 +42,17 @@ class SklearnSentenceClassifier(Classifier):
                 targets.append(label)
 
         logger.debug(f"Training on {len(sentences)} sentences")
+        time.sleep(10)
 
         model = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("clf", MultinomialNB())])
         model.fit(sentences, targets)
         time.sleep(10)
         logger.debug(f"Training finished")
 
-        self._model_manager.save_model(_CLASSIFIER_NAME, user_id, model)
+        self._save_model(user_id, model)
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
-        model: Optional[Pipeline] = self._model_manager.load_model(_CLASSIFIER_NAME, user_id)
+        model: Optional[Pipeline] = self._load_model(user_id)
 
         if model is None:
             logger.debug("No trained model ready yet!")

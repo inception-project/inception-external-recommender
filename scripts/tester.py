@@ -15,8 +15,8 @@ def send_train_request(path_to_json: str, user: str):
         document["userId"] = user
 
     response = _send_json("http://localhost:5000/sklearn_sentence/train", json_data)
-    print(response.info())
-    print(response.info())
+    print(response.status)
+    print(response.reason)
 
 
 def send_predict_request(path_to_json: str, user: str):
