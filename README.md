@@ -17,6 +17,9 @@ parts-of-speech. They both use [spaCy](https://spacy.io/). They are not trainabl
 
     server.start()
     
+They are then reachable under `http://localhost:5000/spacy_ner` and 
+`http://localhost:5000/spacy_pos` respectively.
+    
 ## Building your own recommender
 
 See `ariadne/contrib/sklearn.py` for examples.
