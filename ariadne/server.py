@@ -78,4 +78,4 @@ class Server:
     def _get_lock(self, classifier_name: str, user_id: str) -> FileLock:
         self._lock_directory.mkdir(parents=True, exist_ok=True)
         lock_path = self._lock_directory / f"{classifier_name}_{user_id}.lock"
-        return FileLock(lock_path, timeout=2)
+        return FileLock(lock_path, timeout=1)
