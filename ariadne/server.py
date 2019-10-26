@@ -68,7 +68,7 @@ class Server:
                     lock.release()
 
             # We spawn a thread and run the training in there so that this HTTP request can return directly
-            threading.Thread(target=_fn).start()
+            threading.Thread(target=_fn, daemon=True).start()
             return HTTPStatus.NO_CONTENT.description, HTTPStatus.NO_CONTENT.value
         except Timeout:
             logger.info("Already training [%s] for user [%s], skipping!", classifier_name, user_id)
