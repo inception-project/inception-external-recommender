@@ -40,7 +40,7 @@ class SklearnSentenceClassifier(Classifier):
                 if label is None:
                     continue
 
-                sentences.append(sentence.get_covered_text())
+                sentences.append(cas.get_covered_text(sentence))
                 targets.append(label)
 
         model = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("clf", MultinomialNB())])

@@ -1,5 +1,9 @@
 # inception-external-recommender
 
+[![Build Status](https://travis-ci.org/inception-project/inception-external-recommender.svg?branch=master)](https://travis-ci.org/inception-project/inception-external-recommender)
+[![codecov](https://codecov.io/gh/inception-project/inception-external-recommender/branch/master/graph/badge.svg)](https://codecov.io/gh/inception-project/inception-external-recommender)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 This repository provides **[ariadne](https://inception.fandom.com/wiki/Ariadne)**, a library 
 to run and implement external recommenders for INCEpTION using Python.
 
