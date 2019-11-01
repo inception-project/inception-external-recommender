@@ -4,13 +4,12 @@ import spacy
 from spacy.tokens import Doc
 
 
-from inception_external_recommender.classifier import Classifier
+from ariadne.classifier import Classifier
 
 
 class SpacyNerClassifier(Classifier):
-
     def __init__(self, model_name: str):
-        self._model = spacy.load(model_name, disable=['parser'])
+        self._model = spacy.load(model_name, disable=["parser"])
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
@@ -32,9 +31,8 @@ class SpacyNerClassifier(Classifier):
 
 
 class SpacyPosClassifier(Classifier):
-
     def __init__(self, model_name: str):
-        self._model = spacy.load(model_name, disable=['parser'])
+        self._model = spacy.load(model_name, disable=["parser"])
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it

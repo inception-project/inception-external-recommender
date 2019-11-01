@@ -3,7 +3,7 @@ from typing import List
 
 from cassis import TypeSystem, Cas
 
-from inception_external_recommender.constants import SENTENCE_TYPE
+from ariadne.constants import SENTENCE_TYPE
 
 
 def write_sentence_documents(sentences: List[str], labels: List[str], path: Path, labeled=True):
@@ -12,7 +12,7 @@ def write_sentence_documents(sentences: List[str], labels: List[str], path: Path
 
     SentenceType = typesystem.create_type("de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence")
     SentimentType = typesystem.create_type("webanno.custom.Sentiment")
-    typesystem.add_feature(type_=SentimentType, name='value', rangeTypeName='uima.cas.String')
+    typesystem.add_feature(type_=SentimentType, name="value", rangeTypeName="uima.cas.String")
 
     cas.sofa_string = " ".join(sentences)
 

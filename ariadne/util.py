@@ -3,10 +3,15 @@ from pathlib import Path
 
 import wget
 
+from ariadne import model_directory
+
 
 def setup_logging():
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
+    log_fmt = "%(process)d-%(thread)d %(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    logging.basicConfig(level=logging.DEBUG, format=log_fmt)
+
+    filelock_logger = logging.getLogger("filelock")
+    filelock_logger.setLevel(logging.WARNING)
 
 
 def download_file(url: str, target_path: Path):
