@@ -25,8 +25,10 @@ install_requires = [
 ]
 
 test_dependencies = [
-    "wget",
-    "pytest"
+    "tox",
+    "pytest",
+    "codecov",
+    "pytest-cov",
 ]
 
 dev_dependencies = [
