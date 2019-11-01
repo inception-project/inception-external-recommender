@@ -7,7 +7,7 @@ import joblib
 from cassis import Cas
 from cassis.typesystem import FeatureStructure, Type
 
-from ariadne import model_directory
+import ariadne
 from ariadne.constants import TOKEN_TYPE, IS_PREDICTION, SENTENCE_TYPE
 from ariadne.protocol import TrainingDocument
 
@@ -15,6 +15,9 @@ logger = logging.getLogger(__file__)
 
 
 class Classifier:
+    def __init__(self, model_directory: Path = None):
+        self.model_directory = ariadne.model_directory if model_directory is None else model_directory
+
     def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id, user_id: str):
         pass
 
@@ -80,7 +83,7 @@ class Classifier:
         os.replace(tmp_model_path, model_path)
 
     def _get_model_path(self, user_id: str) -> Path:
-        return model_directory / self.name / f"model_{user_id}.joblib"
+        return self.model_directory / self.name / f"model_{user_id}.joblib"
 
     @property
     def name(self) -> str:

@@ -1,0 +1,1 @@
+from ariadne.contrib.sklearn import SklearnSentenceClassifier
