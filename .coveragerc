@@ -1,0 +1,6 @@
+[run]
+source=ariadne
+omit=
+    setup.py
+    ariadne/__init__.py
+    ariadne/__version__.py
