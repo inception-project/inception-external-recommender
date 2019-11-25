@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from itertools import chain
 from typing import List
 
@@ -24,14 +25,28 @@ class LevenshteinStringMatcher(Classifier):
         mentions = []
         labels = []
 
+        counts = defaultdict(lambda: defaultdict(int))
+
         for document in documents:
             cas = document.cas
             for annotation in cas.select(layer):
-                mention = annotation.get_covered_text()
+                mention = annotation.get_covered_text().lower()
                 label = getattr(annotation, feature)
 
-                mentions.append(mention)
-                labels.append(label)
+                if not label:
+                    label = ""
+
+                counts[mention][label] += 1
+
+        # Just use the entity that was most often linked with this mention
+        for mention, candidates in counts.items():
+            if candidates:
+                label = max(candidates, key=candidates.get)
+            else:
+                label = ""
+
+            mentions.append(mention)
+            labels.append(label)
 
         le = LabelEncoder()
         le.fit(labels)
@@ -72,5 +87,7 @@ class LevenshteinStringMatcher(Classifier):
             yield (begin, end, text)
 
     def _get_fst_path(self, user_id: str) -> str:
-        p = self.model_directory / self.name / f"model_{user_id}.fst"
+        parent = self.model_directory / self.name
+        parent.mkdir(exist_ok=True, parents=True)
+        p = parent / f"model_{user_id}.fst"
         return str(p)
