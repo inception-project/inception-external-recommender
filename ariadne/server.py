@@ -26,8 +26,8 @@ class Server:
     def add_classifier(self, name: str, classifier: Classifier):
         self._classifiers[name] = classifier
 
-    def start(self, debug: bool = False):
-        self._app.run(debug=debug, host="0.0.0.0")
+    def start(self, debug: bool = False, host: str = "0.0.0.0", port: int = 5000):
+        self._app.run(debug=debug, host=host, port=port)
 
     def _predict(self, classifier_name: str):
         logger.info("Got prediction request for [%s]", classifier_name)
