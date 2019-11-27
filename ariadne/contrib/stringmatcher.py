@@ -36,7 +36,7 @@ class LevenshteinStringMatcher(Classifier):
                 if not label:
                     label = ""
 
-                counts[mtention][label] += 1
+                counts[mention][label] += 1
 
         # Just use the entity that was most often linked with this mention
         for mention, candidates in counts.items():
