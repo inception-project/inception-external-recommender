@@ -72,7 +72,6 @@ class LevenshteinStringMatcher(Classifier):
             for mention, label_id in m.search(term=term, max_dist=2):
                 label = le.inverse_transform([label_id])[0]
                 prediction = self.create_prediction(cas, layer, feature, begin, end, label)
-                print(prediction)
                 cas.add_annotation(prediction)
 
     def _generate_candidates(self, cas: Cas, n: int):
