@@ -34,7 +34,7 @@ class LevenshteinStringMatcher(Classifier):
                 label = getattr(annotation, feature)
 
                 if not label:
-                    label = ""
+                    continue
 
                 counts[mention][label] += 1
 
