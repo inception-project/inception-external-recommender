@@ -53,7 +53,7 @@ This recommender uses [Jieba](https://github.com/fxsjy/jieba) for predicting Chi
   <img src="img/jieba.png">
 </p>
 
-### S-Bert sentence classifier
+### S-BERT sentence classifier
 
 This recommender uses [S-BERT](https://github.com/UKPLab/sentence-transformers) together with
 [LightGMB)[https://lightgbm.readthedocs.io/en/latest/] for sentence classification.
