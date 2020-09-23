@@ -15,15 +15,19 @@ AUTHOR = "The INCEpTION team"
 REQUIRES_PYTHON = ">=3.6.0"
 
 install_requires = [
-    "sklearn",
-    "sklearn_crfsuite",
     "flask",
     "filelock",
     "dkpro-cassis",
     "joblib",
-    "spacy",
     "gunicorn",
-    "rust_fst"
+
+    "sklearn",
+    "sklearn_crfsuite",
+    "spacy",
+    "rust_fst",
+    "spacy>=2.3",
+    "nltk",
+    "jieba>=0.42"
 ]
 
 test_dependencies = [
