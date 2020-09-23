@@ -40,6 +40,16 @@ This runs the recommendation server with 4 workers, that means at least 4 users 
 server at the same time. Make sure to scale this to your needs. Also adjust the IP adress
 the server is listening on. `0.0.0.0` exposes it to your network!
 
+## Models
+
+### Jieba Segmenter
+
+This recommender uses [Jieba](https://github.com/fxsjy/jieba) for predicting Chinese segmentation.
+
+<p align="center">
+  <img src="img/jieba.png">
+</p>
+
 ## Development
 
 The following section describes how to develop your own recommender. **inception-recommender** 
