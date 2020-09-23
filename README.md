@@ -59,7 +59,7 @@ This recommender uses [S-BERT](https://github.com/UKPLab/sentence-transformers) 
 [LightGMB)[https://lightgbm.readthedocs.io/en/latest/] for sentence classification.
 
 <p align="center">
-  <img src="img/sbert_sls.png.png">
+  <img src="img/sbert_sls.png">
 </p>
 
 ## Development
