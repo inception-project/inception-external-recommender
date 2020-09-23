@@ -16,12 +16,14 @@ REQUIRES_PYTHON = ">=3.6.0"
 
 install_requires = [
     "sklearn",
+    "sklearn_crfsuite",
     "flask",
     "filelock",
     "dkpro-cassis",
     "joblib",
     "spacy",
-    "gunicorn"
+    "gunicorn",
+    "rust_fst"
 ]
 
 test_dependencies = [
