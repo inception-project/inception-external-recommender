@@ -59,7 +59,7 @@ class SklearnSentenceClassifier(Classifier):
             return
 
         for sentence in self.iter_sentences(cas):
-            predicted = model.predict([cas.get_covered_text(sentence)])[0]
+            predicted = model.predict([sentence.get_covered_text()])[0]
             prediction = self.create_prediction(cas, layer, feature, sentence.begin, sentence.end, predicted)
             cas.add_annotation(prediction)
 

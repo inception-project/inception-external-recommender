@@ -1,1 +1,2 @@
 from ariadne.contrib.sklearn import SklearnSentenceClassifier
+from ariadne.contrib.sbert import SbertSentenceClassifier

@@ -25,7 +25,7 @@ def main():
     sentences = []
     labels = []
     with zipfile.ZipFile(PATH_DATASETS_SLS_ZIP) as myzip:
-        with myzip.open("sentiment labelled sentences/imdb_labelled.txt") as f:
+        with myzip.open("sentiment labelled sentences/sls_labelled.txt") as f:
             for i, line in enumerate(f):
                 line = line.decode("utf-8")
                 text, label = line.strip().split("\t")

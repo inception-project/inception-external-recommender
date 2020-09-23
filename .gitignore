@@ -210,3 +210,4 @@ dmypy.json
 *.joblib
 /lvenv/
 /models/*
+/cache

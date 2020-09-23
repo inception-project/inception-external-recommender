@@ -20,14 +20,20 @@ install_requires = [
     "dkpro-cassis",
     "joblib",
     "gunicorn",
+]
 
+contrib_dependencies = [
+    "numpy>=1.19",
     "sklearn",
     "sklearn_crfsuite",
     "spacy",
     "rust_fst",
     "spacy>=2.3",
     "nltk",
-    "jieba>=0.42"
+    "jieba>=0.42",
+    "sentence-transformers>=0.3.6",
+    "diskcache>=5.0.0",
+    "lightgbm>=3.0.0"
 ]
 
 test_dependencies = [
@@ -51,7 +57,8 @@ doc_dependencies = [
 extras = {
     "test": test_dependencies,
     "dev": dev_dependencies,
-    "doc": doc_dependencies
+    "doc": doc_dependencies,
+    "contrib": contrib_dependencies
 }
 
 here = os.path.abspath(os.path.dirname(__file__))

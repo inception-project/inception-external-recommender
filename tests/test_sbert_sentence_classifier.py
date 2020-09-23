@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ariadne.contrib import SklearnSentenceClassifier
+from ariadne.contrib import SbertSentenceClassifier
 
 from tests.util import *
 
@@ -9,7 +9,7 @@ def test_fit(tmpdir_factory):
     training_data = load_newsgroup_training_data()
 
     model_directory = Path(tmpdir_factory.mktemp("models"))
-    sut = SklearnSentenceClassifier(model_directory)
+    sut = SbertSentenceClassifier(model_directory)
     sut.fit(training_data, PREDICTED_TYPE, PREDICTED_FEATURE, PROJECT_ID, USER)
 
     model_path = model_directory / sut.name / f"model_{USER}.joblib"
@@ -19,7 +19,7 @@ def test_fit(tmpdir_factory):
 def test_predict(tmpdir_factory):
     training_data = load_newsgroup_training_data()
     model_directory = Path(tmpdir_factory.mktemp("models"))
-    sut = SklearnSentenceClassifier(model_directory)
+    sut = SbertSentenceClassifier(model_directory)
     sut.fit(training_data, PREDICTED_TYPE, PREDICTED_FEATURE, PROJECT_ID, USER)
 
     test_data = load_newsgroup_test_data()

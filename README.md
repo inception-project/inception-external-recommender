@@ -40,7 +40,11 @@ This runs the recommendation server with 4 workers, that means at least 4 users 
 server at the same time. Make sure to scale this to your needs. Also adjust the IP adress
 the server is listening on. `0.0.0.0` exposes it to your network!
 
-## Models
+## Contrib Models
+
+Many different models have been already implemented and are ready for you to use:
+
+
 
 ### Jieba Segmenter
 
