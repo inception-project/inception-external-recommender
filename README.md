@@ -45,13 +45,21 @@ the server is listening on. `0.0.0.0` exposes it to your network!
 Many different models have been already implemented and are ready for you to use:
 
 
-
 ### Jieba Segmenter
 
 This recommender uses [Jieba](https://github.com/fxsjy/jieba) for predicting Chinese segmentation.
 
 <p align="center">
   <img src="img/jieba.png">
+</p>
+
+### S-Bert sentence classifier
+
+This recommender uses [S-BERT](https://github.com/UKPLab/sentence-transformers) together with
+[LightGMB)[https://lightgbm.readthedocs.io/en/latest/] for sentence classification.
+
+<p align="center">
+  <img src="img/sbert_sls.png.png">
 </p>
 
 ## Development
