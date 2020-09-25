@@ -5,7 +5,7 @@ python:
  - "3.7"
 
 install:
-    - pip install --upgrade -e .[test]
+    - pip install --upgrade -e .[test,contrib]
 
 script:
     - pytest --cov=./
