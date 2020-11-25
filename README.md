@@ -11,7 +11,7 @@ to run and implement external recommenders for INCEpTION using Python.
 For installing the required packages we provide a `setup.py` to simplify the process. To install
 the basic requirements just run 
     
-    pip install .
+    pip install -e .
 
 There are further requirements which need to be fulfilled depending on the use case. They are
 listed and explained below:
@@ -24,7 +24,7 @@ listed and explained below:
 
 To install for example the `contrib` dependencies run:
     
-    pip install . [contrib]
+    pip install -e .[contrib]
  
 ## Starting a simple recommender
 
