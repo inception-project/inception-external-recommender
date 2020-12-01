@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from cassis import Cas
 
 import spacy
@@ -8,8 +10,8 @@ from ariadne.classifier import Classifier
 
 
 class SpacyNerClassifier(Classifier):
-    def __init__(self, model_name: str):
-        super().__init__()
+    def __init__(self, model_name: str, model_directory: Path = None):
+        super().__init__(model_directory=model_directory)
         self._model = spacy.load(model_name, disable=["parser"])
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):

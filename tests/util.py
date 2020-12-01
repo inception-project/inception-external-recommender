@@ -1,6 +1,6 @@
 from typing import List
 
-from cassis import TypeSystem, Cas
+from cassis import *
 
 from sklearn.datasets import fetch_20newsgroups
 
@@ -56,6 +56,16 @@ def load_newsgroup_test_data() -> List[Cas]:
         result.append(cas)
 
     return result
+
+
+def load_obama() -> Cas:
+    with open("data/INCEpTION_TypeSystem.xml", "rb") as f:
+        typesystem = merge_typesystems(load_typesystem(f), build_typesystem())
+
+    with open("data/Wikipedia-Obama.xmi", "rb") as f:
+        cas = load_cas_from_xmi(f, typesystem=typesystem)
+
+    return cas
 
 
 def build_typesystem() -> TypeSystem:

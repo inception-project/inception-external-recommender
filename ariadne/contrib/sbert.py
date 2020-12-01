@@ -55,9 +55,11 @@ class SbertSentenceClassifier(Classifier):
 
             for sentence in self.iter_sentences(cas):
                 # Get the first annotation that covers the sentence
-                try:
-                    annotation = next(cas.select_covered(layer, sentence))
-                except StopIteration:
+                annotations = cas.select_covered(layer, sentence)
+
+                if len(annotations):
+                    annotation = annotations[0]
+                else:
                     continue
 
                 assert (

@@ -17,7 +17,7 @@ REQUIRES_PYTHON = ">=3.6.0"
 install_requires = [
     "flask",
     "filelock",
-    "dkpro-cassis",
+    "dkpro-cassis>=0.5.0",
     "joblib",
     "gunicorn",
 ]
