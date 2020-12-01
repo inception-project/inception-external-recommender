@@ -19,7 +19,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        pip install --upgrade -e .[test, contrib]
+        pip install --upgrade -e .[test,contrib]
     - name: Run tests
       run: |
         pytest --cov=./ --cov-report=xml
