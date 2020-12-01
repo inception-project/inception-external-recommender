@@ -5,3 +5,4 @@ black:
 	black -l 120 ariadne/
 	black -l 120 scripts/
 	black -l 120 tests/
+	black -l 120 wsgi.py

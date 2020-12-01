@@ -22,7 +22,7 @@ def test_predict(tmpdir_factory):
     sut = SbertSentenceClassifier(model_directory)
     sut.fit(training_data, PREDICTED_TYPE, PREDICTED_FEATURE, PROJECT_ID, USER)
 
-    test_data = load_newsgroup_test_data()
+    test_data = load_newsgroup_test_data()[:2]
 
     for cas in test_data:
         sut.predict(cas, PREDICTED_TYPE, PREDICTED_FEATURE, PROJECT_ID, "doc_42", USER)
