@@ -7,12 +7,42 @@
 This repository provides **[ariadne](https://inception.fandom.com/wiki/Ariadne)**, a library 
 to run and implement external recommenders for INCEpTION using Python.
 
+## Install required packages
+For installing the required packages we provide a `setup.py` to simplify the process. To install
+the basic requirements just run 
+    
+    pip install -e .
+
+There are further requirements which need to be fulfilled depending on the use case. They are
+listed and explained below:
+
+* `contrib` for being able to use the provided already usable external recommenders (for a
+ detailed overview see [Contrib Models](#contrib-models) below)
+* `test` for being able to use the tests
+<!--- * `doc` for being able to build the documentation % -->
+* `dev` for being able to develop this package
+
+To install for example the `contrib` dependencies run:
+    
+    pip install -e .[contrib]
+ 
 ## Starting a simple recommender
 
-The following starts a server with two recommender, one for named entities and one for
-parts-of-speech. They both use [spaCy](https://spacy.io/). They are not trainable.
+We provide multiple ready to use recommenders. A full overview of them can be found at [Contrib
+ Models](#contrib-models).
+ 
+In this section we provide an example on how to start a server with two recommenders, one for
+named entities and one for parts-of-speech. They both use [spaCy](https://spacy.io/) and are
+not trainable. 
 
-    from ariadne.contrib.sklearn import SklearnSentenceClassifier
+Be aware that the english spacy model needs to be downloaded previously. This can be done by
+running:
+    
+    python -m spacy download en 
+
+Then you can use this example code to start the server:
+
+    from ariadne.contrib.spacy import SpacyNerClassifier, SpacyPosClassifier
     from ariadne.server import Server
       
     server = Server()
@@ -21,8 +51,21 @@ parts-of-speech. They both use [spaCy](https://spacy.io/). They are not trainabl
 
     server.start()
     
-They are then reachable under `http://localhost:5000/spacy_ner` and 
+The external recommenders are afterwards reachable under `http://localhost:5000/spacy_ner` and 
 `http://localhost:5000/spacy_pos` respectively.
+
+To add them to your INCEpTION-project open its settings page and choose the tab *Recommenders*. 
+Click on *Create* to create a new recommender. Then choose its properties according to the
+picture below to add the part-of-speech recommender. Its name is generated automatically.
+ 
+<p align="center">
+  <img src="img/spacy_pos_settings.png">
+</p>
+
+Click *Save* and open a text for annotation. After performing an action, e.g. making an
+annotation, the recommendations are shown above the tokens. Adding the named-entity recommender
+works similarly. A detailed description for using a recommender can be found in the 
+[INCEpTION user guide](https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/INCEpTION%20(GitHub)%20(master)/de.tudarmstadt.ukp.inception.app$inception-app-webapp/doclinks/1/#sect_annotation_recommendation). 
     
 ## Building your own recommender
 
@@ -42,7 +85,24 @@ the server is listening on. `0.0.0.0` exposes it to your network!
 
 ## Contrib Models
 
-Many different models have been already implemented and are ready for you to use:
+Multiple different models have already been implemented and are ready for you to use. The
+following table provides an overview about them:
+
+| Classname | Description | Trainable |
+| --------- | ----------- | --------- |
+| JiebaSegmenter | Chinese segmentation prediction with [Jieba](https://github.com/fxsjy/jieba) | no |
+| LevenshteinStringMatcher | "Fuzzy" string matching | yes |
+| NltkStemmer | Word stemming prediction with [NLTK](https://www.nltk.org/), using its PorterStemmer | no |
+| SklearnMentionDetector | Mention detection with [sklearn-crfsuite](https://github.com/TeamHG-Memex/sklearn-crfsuite), using a conditional random field, trained with gradient descent using the L-BFGS method | yes |
+| SklearnSentenceClassifier | Sentence classification with [scikit-learn](https://scikit-learn.org/stable/), using its multinominal naive bayes classifier and  TF-IDF counts as features | yes |
+| SpacyNerClassifier | Named-entity prediction with [spaCy](https://spacy.io/) | no |
+| SpacyPosClassifier | Part-of-speech prediction with [spaCy](https://spacy.io/) | no |
+
+For using trainable recommenders it is important to check the checkbox *Trainable* when adding
+the external recommender to your project. To be able to get predictions of a added trainable
+recommenders you need to start creating annotations in the corresponding layer. 
+Afterwards click on the speechbubble-symbol (*Recommendation*) on the left side and choose *Save* 
+to train the recommender. Now new predictions will be displayed.
 
 
 ### Jieba Segmenter
@@ -56,7 +116,7 @@ This recommender uses [Jieba](https://github.com/fxsjy/jieba) for predicting Chi
 ### S-BERT sentence classifier
 
 This recommender uses [S-BERT](https://github.com/UKPLab/sentence-transformers) together with
-[LightGMB)[https://lightgbm.readthedocs.io/en/latest/] for sentence classification.
+[LightGBM](https://lightgbm.readthedocs.io/en/latest/) for sentence classification.
 
 <p align="center">
   <img src="img/sbert_sls.png">
