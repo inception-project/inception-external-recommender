@@ -97,6 +97,8 @@ following table provides an overview about them:
 | SklearnSentenceClassifier | Sentence classification with [scikit-learn](https://scikit-learn.org/stable/), using its multinominal naive bayes classifier and  TF-IDF counts as features | yes |
 | SpacyNerClassifier | Named-entity prediction with [spaCy](https://spacy.io/) | no |
 | SpacyPosClassifier | Part-of-speech prediction with [spaCy](https://spacy.io/) | no |
+| AdapterSequenceTagger | Sequence tagger using [Adapters](https://adapterhub.ml/) | no |
+| AdapterSentenceClassifier | Sentence classifier using [Adapters](https://adapterhub.ml/) | no |
 
 For using trainable recommenders it is important to check the checkbox *Trainable* when adding
 the external recommender to your project. To be able to get predictions of a added trainable

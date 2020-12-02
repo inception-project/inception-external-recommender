@@ -15,6 +15,25 @@ import numpy as np
 
 class AdapterSequenceTagger(Classifier):
     def __init__(self, base_model_name: str, adapter_name: str, labels: List[str], model_directory: Path = None):
+        """ Sequence Tagger using Adapters from https://adapterhub.ml .
+
+        As an example, to use it for POS tagging, one can use
+
+            AdapterSequenceTagger(
+                base_model_name="bert-base-uncased",
+                adapter_name="pos/ldc2012t13@vblagoje",
+                labels=[
+                    "ADJ", "ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ", "NOUN",
+                    "NUM" "PART" "PRON" "PROPN" "PUNCT" "SCONJ" "SYM" "VERB" "X",
+                ],
+            )
+
+        Args:
+            base_model_name: The name of the base model that is to be augmented with adapters, e.g. "bert-base-uncased"
+            adapter_name: The name of the adapter to use, e.g. "pos/ldc2012t13@vblagoje"
+            labels: The list of labels with which the adapter was trained, e.g. ["PER", "LOC", "ORG", "OTH"]
+            model_directory (optional): Path were trained user models will be stored
+        """
         super().__init__(model_directory=model_directory)
         self._labels = labels
         self._label_map = {i: label for i, label in enumerate(labels)}
@@ -102,7 +121,24 @@ class AdapterSequenceTagger(Classifier):
 
 
 class AdapterSentenceClassifier(Classifier):
+
     def __init__(self, base_model_name: str, adapter_name: str, labels: List[str], model_directory: Path = None):
+        """ Sentence Classifier using Adapters from https://adapterhub.ml .
+
+        As an example, to use it to predict sentiment, one can use
+
+            AdapterSentenceClassifier(
+                base_model_name="bert-base-uncased",
+                adapter_name="sentiment/sst-2@ukp",
+                labels=["negative", "positive"]
+            )
+
+        Args:
+            base_model_name: The name of the base model that is to be augmented with adapters, e.g. "bert-base-uncased"
+            adapter_name: The name of the adapter to use, e.g. "sentiment/sst-2@ukp"
+            labels: The list of labels with which the adapter was trained, e.g. ["negative", "positive"]
+            model_directory (optional): Path were trained user models will be stored
+        """
         super().__init__(model_directory=model_directory)
         self._labels = labels
         self._label_map = {i: label for i, label in enumerate(labels)}
