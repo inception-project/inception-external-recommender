@@ -26,7 +26,7 @@ listed and explained below:
 
 To install for example the `contrib` dependencies run:
     
-    pip install -e .[contrib]
+    pip install -e ".[contrib]"
  
 ## Starting a simple recommender
 
