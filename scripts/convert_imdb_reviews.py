@@ -2,10 +2,8 @@ import random
 from pathlib import Path
 import tarfile
 
-from cassis import Cas, TypeSystem
-
-from ariadne.util import download_file, setup_logging
-from scripts.util import write_sentence_documents
+from ariadne.util import setup_logging
+from scripts.util import write_sentence_documents, download_file
 
 PATH_ROOT: Path = Path(__file__).resolve().parents[1]
 PATH_DATASETS = PATH_ROOT / "datasets"

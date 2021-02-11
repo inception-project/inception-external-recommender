@@ -2,11 +2,10 @@ import html
 from pathlib import Path
 import zipfile
 
-from cassis import TypeSystem, Cas
 from sklearn.model_selection import train_test_split
 
-from ariadne.util import setup_logging, download_file
-from scripts.util import write_sentence_documents
+from ariadne.util import setup_logging
+from scripts.util import write_sentence_documents, download_file
 
 PATH_ROOT: Path = Path(__file__).resolve().parents[1]
 PATH_DATASETS = PATH_ROOT / "datasets"

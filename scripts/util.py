@@ -1,9 +1,21 @@
+import logging
 from pathlib import Path
 from typing import List
 
+import wget
 from cassis import TypeSystem, Cas
 
 from ariadne.constants import SENTENCE_TYPE
+
+
+def download_file(url: str, target_path: Path):
+    import ssl
+
+    if target_path.exists():
+        logging.info("File already exists: [%s]", str(target_path.resolve()))
+        return
+
+    wget.download(url, str(target_path.resolve()))
 
 
 def write_sentence_documents(sentences: List[str], labels: List[str], path: Path, labeled=True):
