@@ -79,7 +79,7 @@ In order to support multiple users at once, the recommender server needs to be s
 a wsgi server. This can e.g. be done via [gunicorn](https://gunicorn.org/). We provide an
 example in `wsgi.py` which can be run on `gunicorn` via
 
-    gunicorn -w 4 -b 127.0.0.1:5000 wsgi:server._app
+    gunicorn -w 4 -b 127.0.0.1:5000 wsgi:app
     
 This runs the recommendation server with 4 workers, that means at least 4 users can use the 
 server at the same time. Make sure to scale this to your needs. Also adjust the IP adress
