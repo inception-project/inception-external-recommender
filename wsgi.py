@@ -47,4 +47,7 @@ server = Server()
 #     ),
 # )
 
-server.start(debug=True, port=40022)
+app = server._app
+
+if __name__ == "__main__":
+    server.start(debug=True, port=40022)
