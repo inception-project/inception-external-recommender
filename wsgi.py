@@ -6,8 +6,8 @@ from ariadne.util import setup_logging
 setup_logging()
 
 server = Server()
-# server.add_classifier("spacy_ner", SpacyNerClassifier("en"))
-# server.add_classifier("spacy_pos", SpacyPosClassifier("en"))
+# server.add_classifier("spacy_ner", SpacyNerClassifier("en_core_web_sm"))
+# server.add_classifier("spacy_pos", SpacyPosClassifier("en_core_web_sm"))
 # server.add_classifier("sklearn_sentence", SklearnSentenceClassifier())
 # server.add_classifier("jieba", JiebaSegmenter())
 # server.add_classifier("stemmer", NltkStemmer())

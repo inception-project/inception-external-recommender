@@ -121,7 +121,6 @@ class AdapterSequenceTagger(Classifier):
 
 
 class AdapterSentenceClassifier(Classifier):
-
     def __init__(self, base_model_name: str, adapter_name: str, labels: List[str], model_directory: Path = None):
         """ Sentence Classifier using Adapters from https://adapterhub.ml .
 

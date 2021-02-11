@@ -24,16 +24,15 @@ install_requires = [
 
 contrib_dependencies = [
     "numpy>=1.19",
-    "sklearn",
-    "sklearn_crfsuite",
-    "spacy",
-    "rust_fst",
-    "spacy>=2.3",
-    "nltk",
-    "jieba>=0.42",
-    "sentence-transformers>=0.3.6",
-    "diskcache>=5.0.0",
-    "lightgbm>=3.0.0"
+    "scikit-learn~=0.24.1",
+    "sklearn_crfsuite~=0.3.6",
+    "rust_fst~=0.1.2",
+    "spacy~=3.0",
+    "nltk~=3.5",
+    "jieba~=0.42",
+    "sentence-transformers~=0.3.6",
+    "lightgbm~=3.1.1",
+    "diskcache~=5.2.1"
 ]
 
 test_dependencies = [

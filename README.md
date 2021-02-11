@@ -36,7 +36,7 @@ not trainable.
 Be aware that the english spacy model needs to be downloaded previously. This can be done by
 running:
     
-    python -m spacy download en 
+    python -m spacy download en_core_web_sm 
 
 Then you can use this example code to start the server:
 
@@ -44,8 +44,8 @@ Then you can use this example code to start the server:
     from ariadne.server import Server
       
     server = Server()
-    server.add_classifier("spacy_ner", SpacyNerClassifier("en"))
-    server.add_classifier("spacy_pos", SpacyPosClassifier("en"))
+    server.add_classifier("spacy_ner", SpacyNerClassifier("en_core_web_sm"))
+    server.add_classifier("spacy_pos", SpacyPosClassifier("en_core_web_sm"))
 
     server.start()
     

@@ -50,7 +50,7 @@ def test_predict_pos(tmpdir_factory):
         assert getattr(prediction, PREDICTED_FEATURE) is not None
 
 
-def test_predict(tmpdir_factory):
+def test_predict_sentiment(tmpdir_factory):
     training_data = load_newsgroup_training_data()
     model_directory = Path(tmpdir_factory.mktemp("models"))
     sut = AdapterSentenceClassifier(

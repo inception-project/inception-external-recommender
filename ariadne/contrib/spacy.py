@@ -22,7 +22,7 @@ class SpacyNerClassifier(Classifier):
         doc = Doc(self._model.vocab, words=words)
 
         # Find the named entities
-        self._model.entity(doc)
+        self._model.get_pipe("ner")(doc)
 
         # For every entity returned by spacy, create an annotation in the CAS
         for named_entity in doc.ents:
@@ -44,8 +44,8 @@ class SpacyPosClassifier(Classifier):
 
         doc = Doc(self._model.vocab, words=words)
 
-        # Find the named entities
-        self._model.tagger(doc)
+        # Get the pos tags
+        self._model.get_pipe("tagger")(doc)
 
         # For every token, extract the POS tag and create an annotation in the CAS
         for cas_token, spacy_token in zip(self.iter_tokens(cas), doc):
