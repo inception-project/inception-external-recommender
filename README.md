@@ -5,6 +5,10 @@
 This repository provides **[ariadne](https://inception.fandom.com/wiki/Ariadne)**, a library 
 to run and implement external recommenders for INCEpTION using Python.
 
+You can watch external recommender in action in the follwing video:
+
+[![Alt text](https://img.youtube.com/vi/LTgtii7gEWg/0.jpg)](https://www.youtube.com/watch?v=LTgtii7gEWg)
+
 ## Install required packages
 For installing the required packages we provide a `setup.py` to simplify the process. To install
 the basic requirements just run 
@@ -22,7 +26,7 @@ listed and explained below:
 
 To install for example the `contrib` dependencies run:
     
-    pip install -e .[contrib]
+    pip install -e ".[contrib]"
  
 ## Starting a simple recommender
 
