@@ -25,4 +25,4 @@ def test_predict_pos(tmpdir_factory):
     assert len(predictions)
 
     for prediction in predictions:
-        assert getattr(prediction, PREDICTED_FEATURE) is not None
+        assert getattr(prediction, PREDICTED_FEATURE)

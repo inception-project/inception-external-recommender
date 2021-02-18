@@ -45,9 +45,10 @@ class SpacyPosClassifier(Classifier):
         doc = Doc(self._model.vocab, words=words)
 
         # Get the pos tags
+        self._model.get_pipe("tok2vec")(doc)
         self._model.get_pipe("tagger")(doc)
 
         # For every token, extract the POS tag and create an annotation in the CAS
         for cas_token, spacy_token in zip(self.iter_tokens(cas), doc):
-            prediction = self.create_prediction(cas, layer, feature, cas_token.begin, cas_token.end, spacy_token.pos_)
+            prediction = self.create_prediction(cas, layer, feature, cas_token.begin, cas_token.end, spacy_token.tag_)
             cas.add_annotation(prediction)
