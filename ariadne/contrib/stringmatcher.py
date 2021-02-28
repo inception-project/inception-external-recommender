@@ -12,7 +12,8 @@ from rust_fst import Map
 import more_itertools as mit
 
 from ariadne.classifier import Classifier
-from ariadne.constants import TOKEN_TYPE
+
+from ariadne.contrib.inception_util import create_prediction, TOKEN_TYPE
 from ariadne.protocol import TrainingDocument
 
 logger = logging.getLogger(__name__)
@@ -73,7 +74,7 @@ class LevenshteinStringMatcher(Classifier):
         ):
             for mention, label_id in m.search(term=term, max_dist=2):
                 label = le.inverse_transform([label_id])[0]
-                prediction = self.create_prediction(cas, layer, feature, begin, end, label)
+                prediction = create_prediction(cas, layer, feature, begin, end, label)
                 cas.add_annotation(prediction)
 
     def _generate_candidates(self, cas: Cas, n: int):
@@ -82,4 +83,4 @@ class LevenshteinStringMatcher(Classifier):
             begin = tokens[0].begin
             end = tokens[-1].end
             text = cas.sofa_string[begin:end]
-            yield (begin, end, text)
+            yield begin, end, text

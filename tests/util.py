@@ -4,7 +4,7 @@ from cassis import *
 
 from sklearn.datasets import fetch_20newsgroups
 
-from ariadne.constants import SENTENCE_TYPE, IS_PREDICTION
+from ariadne.contrib.inception_util import SENTENCE_TYPE, IS_PREDICTION
 from ariadne.protocol import TrainingDocument
 
 PREDICTED_TYPE = "ariadne.testtype"

@@ -10,7 +10,8 @@ from sklearn.pipeline import Pipeline
 
 
 from ariadne.classifier import Classifier
-from ariadne.constants import TOKEN_TYPE
+
+from ariadne.contrib.inception_util import create_prediction, TOKEN_TYPE, SENTENCE_TYPE
 from ariadne.protocol import TrainingDocument
 
 
@@ -26,7 +27,7 @@ class SklearnSentenceClassifier(Classifier):
         for document in documents:
             cas = document.cas
 
-            for sentence in self.iter_sentences(cas):
+            for sentence in cas.select(SENTENCE_TYPE):
                 # Get the first annotation that covers the sentence
                 annotations = cas.select_covered(layer, sentence)
 
@@ -60,9 +61,9 @@ class SklearnSentenceClassifier(Classifier):
             logger.debug("No trained model ready yet!")
             return
 
-        for sentence in self.iter_sentences(cas):
+        for sentence in cas.select(SENTENCE_TYPE):
             predicted = model.predict([sentence.get_covered_text()])[0]
-            prediction = self.create_prediction(cas, layer, feature, sentence.begin, sentence.end, predicted)
+            prediction = create_prediction(cas, layer, feature, sentence.begin, sentence.end, predicted)
             cas.add_annotation(prediction)
 
 
@@ -76,7 +77,7 @@ class SklearnMentionDetector(Classifier):
         for document in documents:
             cas = document.cas
 
-            for sentence in self.iter_sentences(cas):
+            for sentence in cas.select(SENTENCE_TYPE):
                 tags = []
                 words = []
 
@@ -129,7 +130,7 @@ class SklearnMentionDetector(Classifier):
         all_tokens = []
         featurized_sentences = []
 
-        for sentence in self.iter_sentences(cas):
+        for sentence in cas.select(SENTENCE_TYPE):
             tokens = list(cas.select_covered(TOKEN_TYPE, sentence))
             words = [token.get_covered_text() for token in tokens]
 
@@ -148,7 +149,7 @@ class SklearnMentionDetector(Classifier):
             for tag, token in zip(predictions, tokens):
                 if begin is not None and end is not None:
                     if tag == "O" or (tag.startswith("B") and prev_tag.startswith("I")):
-                        prediction = self.create_prediction(cas, layer, feature, begin, end, "X")
+                        prediction = create_prediction(cas, layer, feature, begin, end, "X")
                         cas.add_annotation(prediction)
 
                 if tag.startswith("B"):

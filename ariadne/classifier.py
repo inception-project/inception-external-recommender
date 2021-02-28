@@ -1,14 +1,12 @@
 import logging
 import os
 from pathlib import Path
-from typing import List, Iterator, Optional, Any
+from typing import List, Optional, Any
 
 import joblib
 from cassis import Cas
-from cassis.typesystem import FeatureStructure, Type
 
 import ariadne
-from ariadne.constants import TOKEN_TYPE, IS_PREDICTION, SENTENCE_TYPE
 from ariadne.protocol import TrainingDocument
 
 logger = logging.getLogger(__file__)
@@ -23,48 +21,6 @@ class Classifier:
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         raise NotImplementedError()
-
-    def iter_sentences(self, cas: Cas) -> Iterator[FeatureStructure]:
-        """ Returns an iterator over all sentences in the given document.
-
-        Args:
-            cas:
-
-        Returns:
-
-        """
-        return cas.select(SENTENCE_TYPE)
-
-    def iter_tokens(self, cas: Cas) -> Iterator[FeatureStructure]:
-        """ Returns an iterator over all tokens in the given document.
-
-        Args:
-            cas:
-
-        Returns:
-
-        """
-        return cas.select(TOKEN_TYPE)
-
-    def get_tokens(self, cas: Cas) -> List[FeatureStructure]:
-        """ Returns the token of all tokens in the given document.
-
-        Args:
-            cas:
-
-        Returns:
-
-        """
-        return list(self.iter_tokens(cas))
-
-    def create_prediction(
-        self, cas: Cas, layer: str, feature: str, begin: int, end: int, label: str
-    ) -> FeatureStructure:
-        AnnotationType = cas.typesystem.get_type(layer)
-
-        fields = {"begin": begin, "end": end, IS_PREDICTION: True, feature: label}
-        prediction = AnnotationType(**fields)
-        return prediction
 
     def _load_model(self, user_id: str) -> Optional[Any]:
         model_path = self._get_model_path(user_id)

@@ -1,16 +1,17 @@
 from collections import Counter
 from pathlib import Path
-from typing import List, Dict
+from typing import List
 
 from cassis import Cas
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModelForSequenceClassification
 
 from ariadne.classifier import Classifier
-from ariadne.constants import SENTENCE_TYPE, TOKEN_TYPE
 
 import torch
 
 import numpy as np
+
+from ariadne.contrib.inception_util import create_prediction, SENTENCE_TYPE, TOKEN_TYPE
 
 
 class AdapterSequenceTagger(Classifier):
@@ -59,7 +60,7 @@ class AdapterSequenceTagger(Classifier):
                 begin = token.begin
                 end = token.end
                 label = Counter([self._label_map[pred] for pred in grouped_prediction]).most_common(1)[0][0]
-                prediction = self.create_prediction(cas, layer, feature, begin, end, label)
+                prediction = create_prediction(cas, layer, feature, begin, end, label)
                 cas.add_annotation(prediction)
 
     def _tokenize_bert(self, cas_tokens: List[str]) -> List[torch.Tensor]:
@@ -160,7 +161,7 @@ class AdapterSentenceClassifier(Classifier):
             # retrieve the predicted class label
             label_id = torch.argmax(outputs[0]).item()
             label = self._label_map[label_id]
-            prediction = self.create_prediction(cas, layer, feature, sentence.begin, sentence.end, label)
+            prediction = create_prediction(cas, layer, feature, sentence.begin, sentence.end, label)
             cas.add_annotation(prediction)
 
     def _build_model(self):

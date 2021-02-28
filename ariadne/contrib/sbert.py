@@ -12,6 +12,7 @@ import numpy as np
 
 from ariadne import cache_directory
 from ariadne.classifier import Classifier
+from ariadne.contrib.inception_util import create_prediction, SENTENCE_TYPE
 from ariadne.protocol import TrainingDocument
 
 
@@ -53,7 +54,7 @@ class SbertSentenceClassifier(Classifier):
         for document in documents:
             cas = document.cas
 
-            for sentence in self.iter_sentences(cas):
+            for sentence in cas.select(SENTENCE_TYPE):
                 # Get the first annotation that covers the sentence
                 annotations = cas.select_covered(layer, sentence)
 
@@ -90,12 +91,12 @@ class SbertSentenceClassifier(Classifier):
             return
 
         featurizer = self._get_featurizer()
-        sentences = self.iter_sentences(cas)
-        featurized_sentences = featurizer.featurize([s.get_covered_text() for s in self.iter_sentences(cas)])
+        sentences = cas.select(SENTENCE_TYPE)
+        featurized_sentences = featurizer.featurize([s.get_covered_text() for s in sentences])
         predictions = model.predict(featurized_sentences)
 
         for sentence, featurized_sentence, label in zip(sentences, featurized_sentences, predictions):
-            prediction = self.create_prediction(cas, layer, feature, sentence.begin, sentence.end, label)
+            prediction = create_prediction(cas, layer, feature, sentence.begin, sentence.end, label)
             cas.add_annotation(prediction)
 
     def _get_featurizer(self):

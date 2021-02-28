@@ -4,6 +4,7 @@ import nltk
 
 
 from ariadne.classifier import Classifier
+from ariadne.contrib.inception_util import create_prediction, TOKEN_TYPE
 
 
 class NltkStemmer(Classifier):
@@ -11,9 +12,9 @@ class NltkStemmer(Classifier):
         stemmer = nltk.PorterStemmer()
 
         # For every token, steam it and create an annotation in the CAS
-        for cas_token in self.iter_tokens(cas):
+        for cas_token in cas.select(TOKEN_TYPE):
             stem = stemmer.stem(cas_token.get_covered_text())
             begin = cas_token.begin
             end = begin + len(stem)
-            prediction = self.create_prediction(cas, layer, feature, begin, end, stem)
+            prediction = create_prediction(cas, layer, feature, begin, end, stem)
             cas.add_annotation(prediction)

@@ -108,6 +108,9 @@ recommenders you need to start creating annotations in the corresponding layer.
 Afterwards click on the speechbubble-symbol (*Recommendation*) on the left side and choose *Save* 
 to train the recommender. Now new predictions will be displayed.
 
+The contrib models are an example and are intended to be used with INCEpTION, therefore they might not be a
+100% fit for you, e.g. `create_prediction`. If your project uses a different type system than DKPro, then you can
+alter the variables in `inception_util.py`.
 
 ### Jieba Segmenter
 

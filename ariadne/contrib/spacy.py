@@ -7,6 +7,7 @@ from spacy.tokens import Doc
 
 
 from ariadne.classifier import Classifier
+from ariadne.contrib.inception_util import create_prediction, TOKEN_TYPE
 
 
 class SpacyNerClassifier(Classifier):
@@ -16,7 +17,7 @@ class SpacyNerClassifier(Classifier):
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
-        cas_tokens = self.get_tokens(cas)
+        cas_tokens = cas.select(TOKEN_TYPE)
         words = [cas.get_covered_text(cas_token) for cas_token in cas_tokens]
 
         doc = Doc(self._model.vocab, words=words)
@@ -29,7 +30,7 @@ class SpacyNerClassifier(Classifier):
             begin = cas_tokens[named_entity.start].begin
             end = cas_tokens[named_entity.end - 1].end
             label = named_entity.label_
-            prediction = self.create_prediction(cas, layer, feature, begin, end, label)
+            prediction = create_prediction(cas, layer, feature, begin, end, label)
             cas.add_annotation(prediction)
 
 
@@ -40,7 +41,7 @@ class SpacyPosClassifier(Classifier):
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
-        words = [cas.get_covered_text(cas_token) for cas_token in self.iter_tokens(cas)]
+        words = [cas.get_covered_text(cas_token) for cas_token in cas.select(TOKEN_TYPE)]
 
         doc = Doc(self._model.vocab, words=words)
 
@@ -49,6 +50,6 @@ class SpacyPosClassifier(Classifier):
         self._model.get_pipe("tagger")(doc)
 
         # For every token, extract the POS tag and create an annotation in the CAS
-        for cas_token, spacy_token in zip(self.iter_tokens(cas), doc):
-            prediction = self.create_prediction(cas, layer, feature, cas_token.begin, cas_token.end, spacy_token.tag_)
+        for cas_token, spacy_token in zip(cas.select(TOKEN_TYPE), doc):
+            prediction = create_prediction(cas, layer, feature, cas_token.begin, cas_token.end, spacy_token.tag_)
             cas.add_annotation(prediction)
