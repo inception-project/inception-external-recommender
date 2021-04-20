@@ -45,6 +45,7 @@ server.add_classifier("align", SimAligner())
 # server.add_classifier(
 #     "adapter_sent",
 #     AdapterSentenceClassifier(
+#         "bert-base-multilingual-uncased",
 #         "sentiment/hinglish-twitter-sentiment@nirantk",
 #         labels=["negative", "positive"],
 #         config="pfeiffer",
