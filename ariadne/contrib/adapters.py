@@ -1,9 +1,16 @@
 from collections import Counter
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from cassis import Cas
-from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModelForSequenceClassification
+from transformers import (
+    AutoTokenizer,
+    AutoConfig,
+    AutoModelForTokenClassification,
+    AutoModelForSequenceClassification,
+    AutoModelWithHeads,
+    BertModelWithHeads,
+)
 
 from ariadne.classifier import Classifier
 
@@ -122,7 +129,14 @@ class AdapterSequenceTagger(Classifier):
 
 
 class AdapterSentenceClassifier(Classifier):
-    def __init__(self, base_model_name: str, adapter_name: str, labels: List[str], model_directory: Path = None):
+    def __init__(
+        self,
+        base_model_name: str,
+        adapter_name: str,
+        labels: List[str],
+        config: Optional[str] = None,
+        model_directory: Path = None,
+    ):
         """ Sentence Classifier using Adapters from https://adapterhub.ml .
 
         As an example, to use it to predict sentiment, one can use
@@ -137,18 +151,20 @@ class AdapterSentenceClassifier(Classifier):
             base_model_name: The name of the base model that is to be augmented with adapters, e.g. "bert-base-uncased"
             adapter_name: The name of the adapter to use, e.g. "sentiment/sst-2@ukp"
             labels: The list of labels with which the adapter was trained, e.g. ["negative", "positive"]
+            config: The requested configuration of the adapter,  e.g. "pfeiffer"
             model_directory (optional): Path were trained user models will be stored
         """
         super().__init__(model_directory=model_directory)
         self._labels = labels
         self._label_map = {i: label for i, label in enumerate(labels)}
 
-        self._model_name = base_model_name
+        self._base_model_name = base_model_name
         self._adapter_name = adapter_name
+        self._config = config
         self._adapter_internal_name = None
 
         self._model = self._build_model()
-        self._tokenizer = AutoTokenizer.from_pretrained(self._model_name)
+        self._tokenizer = AutoTokenizer.from_pretrained(self._base_model_name)
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         for i, sentence in enumerate(cas.select(SENTENCE_TYPE)):
@@ -165,6 +181,6 @@ class AdapterSentenceClassifier(Classifier):
             cas.add_annotation(prediction)
 
     def _build_model(self):
-        model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased")
-        self._adapter_internal_name = model.load_adapter(self._adapter_name, "text_task")
+        model = AutoModelWithHeads.from_pretrained(self._base_model_name)
+        self._adapter_internal_name = model.load_adapter(self._adapter_name, "text_task", config=self._config)
         return model
