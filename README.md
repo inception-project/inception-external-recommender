@@ -67,7 +67,7 @@ picture below to add the part-of-speech recommender. Its name is generated autom
 Click *Save* and open a text for annotation. After performing an action, e.g. making an
 annotation, the recommendations are shown above the tokens. Adding the named-entity recommender
 works similarly. A detailed description for using a recommender can be found in the 
-[INCEpTION user guide](https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/INCEpTION%20(GitHub)%20(master)/de.tudarmstadt.ukp.inception.app$inception-app-webapp/doclinks/1/#sect_annotation_recommendation). 
+[INCEpTION user guide](https://inception-project.github.io/releases/21.1/docs/user-guide.html). 
     
 ## Building your own recommender
 
