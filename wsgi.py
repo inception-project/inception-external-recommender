@@ -1,14 +1,12 @@
-from ariadne.contrib import *
-from ariadne.contrib.adapters import AdapterSentenceClassifier
-from ariadne.contrib.simalign import SimAligner
 from ariadne.server import Server
 from ariadne.util import setup_logging
+from ariadne.contrib.spacy import SpacyNerClassifier
 
 setup_logging()
 
 server = Server()
-server.add_classifier("align", SimAligner())
-# server.add_classifier("spacy_ner", SpacyNerClassifier("en_core_web_sm"))
+
+server.add_classifier("spacy_ner", SpacyNerClassifier("en_core_web_sm"))
 # server.add_classifier("spacy_pos", SpacyPosClassifier("en_core_web_sm"))
 # server.add_classifier("sklearn_sentence", SklearnSentenceClassifier())
 # server.add_classifier("jieba", JiebaSegmenter())
