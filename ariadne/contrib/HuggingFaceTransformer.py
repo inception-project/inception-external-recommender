@@ -18,12 +18,12 @@ class HuggingFaceClassifier(Classifier):
         tokenizer = AutoTokenizer.from_pretrained(self._model)
         model = AutoModelForTokenClassification.from_pretrained(self._model)
         nlp_ner = pipeline("ner", model=model, tokenizer=tokenizer,aggregation_strategy="max")
-        for c, sentence in enumerate(cas.select(SENTENCE_TYPE)):
+        for sentence in  cas.select(SENTENCE_TYPE):
             columns = {'word', 'start', 'end', 'entity_group', 'score'}
             df = pd.DataFrame(columns=columns)
             s=nlp_ner(sentence.get_covered_text())
             for item in s:
                  df = df.append(item, ignore_index= True)
             for i in range(len(df)):
-               prediction = create_prediction(cas, layer, feature,df.loc[i, "start"]+sentence.__getattribute__("begin"),df.loc[i, "end"]+sentence.__getattribute__("begin"),df.loc[i, "entity_group"])
+               prediction = create_prediction(cas, layer, feature,df.loc[i, "start"]+sentence.begin,df.loc[i, "end"]+sentence.begin,df.loc[i, "entity_group"])
                cas.add_annotation(prediction)
