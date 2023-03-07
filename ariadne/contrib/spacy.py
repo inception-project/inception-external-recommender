@@ -13,7 +13,12 @@ from ariadne.contrib.inception_util import create_prediction, TOKEN_TYPE
 class SpacyNerClassifier(Classifier):
     def __init__(self, model_name: str, model_directory: Path = None):
         super().__init__(model_directory=model_directory)
-        self._model = spacy.load(model_name, disable=["parser"])
+        try:
+            self._model = spacy.load(model_name, disable=["parser"])
+        except OSError:
+            print(f"Downloading {model_name}...")
+            spacy.cli.download(model_name)
+            self._model = spacy.load(model_name, disable=["parser"])
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
@@ -37,7 +42,12 @@ class SpacyNerClassifier(Classifier):
 class SpacyPosClassifier(Classifier):
     def __init__(self, model_name: str):
         super().__init__()
-        self._model = spacy.load(model_name, disable=["parser"])
+        try:
+            self._model = spacy.load(model_name, disable=["parser"])
+        except OSError:
+            print(f"Downloading {model_name}...")
+            spacy.cli.download(model_name)
+            self._model = spacy.load(model_name, disable=["parser"])
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
