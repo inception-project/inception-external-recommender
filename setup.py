@@ -23,8 +23,8 @@ install_requires = [
 ]
 
 contrib_dependencies = [
-    "numpy>=1.19",
-    "scikit-learn~=0.24.1",
+    "numpy>=1.24.2",
+    "scikit-learn>=1.0.1",
     "sklearn_crfsuite~=0.3.6",
     "rust_fst~=0.1.2",
     "spacy~=3.0",
