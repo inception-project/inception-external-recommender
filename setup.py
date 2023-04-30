@@ -17,7 +17,7 @@ REQUIRES_PYTHON = ">=3.6.0"
 install_requires = [
     "flask",
     "filelock",
-    "dkpro-cassis>=0.5.0",
+    "dkpro-cassis>=0.7.6",
     "joblib",
     "gunicorn",
 ]
@@ -26,12 +26,12 @@ contrib_dependencies = [
     "numpy>=1.24.2",
     "scikit-learn>=1.0.1",
     "sklearn_crfsuite~=0.3.6",
-    "rust_fst~=0.1.2",
-    "spacy~=3.0",
+#    "rust_fst~=0.1.2",
+    "spacy~=3.5.2",
     "nltk~=3.5",
     "jieba~=0.42",
-    "sentence-transformers~=0.3.6",
-    "lightgbm~=3.1.1",
+    "sentence-transformers~=2.2.2",
+#    "lightgbm~=3.3.5",
     "diskcache~=5.2.1"
 ]
 
