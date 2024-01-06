@@ -14,7 +14,6 @@ class SimAligner(Classifier):
         self._aligner = SentenceAligner(model="bert", token_type="bpe", matching_methods="mai")
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
-
         sentences = cas.select(SENTENCE_TYPE)
 
         src_tokens = cas.select_covered("webanno.custom.Base", sentences[0])
