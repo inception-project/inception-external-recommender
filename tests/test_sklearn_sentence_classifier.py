@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ariadne.contrib import SklearnSentenceClassifier
+from ariadne.contrib.sklearn import SklearnSentenceClassifier
 
 from tests.util import *
 
