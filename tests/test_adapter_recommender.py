@@ -1,6 +1,10 @@
+import pytest
+
+pytest.importorskip("transformers.AuthModelWithHeads")
+
 from pathlib import Path
 
-from ariadne.contrib import AdapterSequenceTagger
+from ariadne.contrib.adapters import AdapterSequenceTagger
 from ariadne.contrib.adapters import AdapterSentenceClassifier
 from tests.util import (
     load_obama,

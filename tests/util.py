@@ -59,10 +59,19 @@ def load_newsgroup_test_data() -> List[Cas]:
 
 
 def load_obama() -> Cas:
-    with open("data/INCEpTION_TypeSystem.xml", "rb") as f:
+    # https://stackoverflow.com/a/20885799
+    try:
+        import importlib.resources as pkg_resources
+    except ImportError:
+        # Try backported to PY<37 `importlib_resources`.
+        import importlib_resources as pkg_resources
+
+    from . import resources  # relative-import the *package* containing the templates
+
+    with pkg_resources.open_binary(resources, "INCEpTION_TypeSystem.xml") as f:
         typesystem = merge_typesystems(load_typesystem(f), build_typesystem())
 
-    with open("data/Wikipedia-Obama.xmi", "rb") as f:
+    with pkg_resources.open_binary(resources, "Wikipedia-Obama.xmi") as f:
         cas = load_cas_from_xmi(f, typesystem=typesystem)
 
     return cas

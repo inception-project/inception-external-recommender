@@ -23,7 +23,7 @@ from ariadne.contrib.inception_util import create_prediction, SENTENCE_TYPE, TOK
 
 class AdapterSequenceTagger(Classifier):
     def __init__(self, base_model_name: str, adapter_name: str, labels: List[str], model_directory: Path = None):
-        """ Sequence Tagger using Adapters from https://adapterhub.ml .
+        """Sequence Tagger using Adapters from https://adapterhub.ml .
 
         As an example, to use it for POS tagging, one can use
 
@@ -137,7 +137,7 @@ class AdapterSentenceClassifier(Classifier):
         config: Optional[str] = None,
         model_directory: Path = None,
     ):
-        """ Sentence Classifier using Adapters from https://adapterhub.ml .
+        """Sentence Classifier using Adapters from https://adapterhub.ml .
 
         As an example, to use it to predict sentiment, one can use
 

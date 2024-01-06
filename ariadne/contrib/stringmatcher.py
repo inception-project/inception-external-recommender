@@ -69,7 +69,7 @@ class LevenshteinStringMatcher(Classifier):
         m = Map.from_iter(items)
 
         # We iterate over the all candidates and check whether they match
-        for (begin, end, term) in chain(
+        for begin, end, term in chain(
             self._generate_candidates(cas, 3), self._generate_candidates(cas, 2), self._generate_candidates(cas, 1)
         ):
             for mention, label_id in m.search(term=term, max_dist=2):
