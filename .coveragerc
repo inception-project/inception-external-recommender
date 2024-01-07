@@ -2,5 +2,6 @@
 source=ariadne
 omit=
     setup.py
+    scripts/*
     ariadne/__init__.py
     ariadne/__version__.py
