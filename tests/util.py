@@ -15,7 +15,8 @@
 # limitations under the License.
 from typing import List
 
-from cassis import *
+from cassis import Cas, TypeSystem, merge_typesystems, load_typesystem, load_cas_from_xmi
+from cassis.typesystem import TYPE_NAME_STRING, TYPE_NAME_BOOLEAN
 
 from sklearn.datasets import fetch_20newsgroups
 
@@ -34,7 +35,7 @@ def load_newsgroup_training_data() -> List[TrainingDocument]:
     target_names = twenty_train.target_names
 
     typesystem = build_typesystem()
-    SentenceType = typesystem.get_type(SENTENCE_TYPE)
+    Sentence = typesystem.get_type(SENTENCE_TYPE)
     PredictedType = typesystem.get_type(PREDICTED_TYPE)
 
     docs = []
@@ -44,7 +45,7 @@ def load_newsgroup_training_data() -> List[TrainingDocument]:
 
         begin = 0
         end = len(text)
-        cas.add_annotation(SentenceType(begin=begin, end=end))
+        cas.add_annotation(Sentence(begin=begin, end=end))
         cas.add_annotation(PredictedType(begin=begin, end=end, value=target_names[target]))
 
         doc = TrainingDocument(cas, f"doc_{i}", USER)
@@ -94,8 +95,7 @@ def load_obama() -> Cas:
 
 def build_typesystem() -> TypeSystem:
     typesystem = TypeSystem()
-    SentenceType = typesystem.create_type(SENTENCE_TYPE)
     PredictedType = typesystem.create_type(PREDICTED_TYPE)
-    typesystem.add_feature(PredictedType, PREDICTED_FEATURE, "uima.cas.String")
-    typesystem.add_feature(PredictedType, IS_PREDICTION, "uima.cas.Boolean")
+    typesystem.add_feature(PredictedType, PREDICTED_FEATURE, TYPE_NAME_STRING)
+    typesystem.add_feature(PredictedType, IS_PREDICTION, TYPE_NAME_BOOLEAN)
     return typesystem
