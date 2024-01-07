@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("jieba")
+
 from pathlib import Path
 
 from cassis import *

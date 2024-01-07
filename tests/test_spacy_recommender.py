@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("spacy")
+
 from ariadne.contrib.spacy import SpacyPosClassifier, SpacyNerClassifier
 from tests.util import load_obama, PREDICTED_TYPE, PREDICTED_FEATURE, PROJECT_ID, USER
 
