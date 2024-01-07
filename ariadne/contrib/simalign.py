@@ -15,11 +15,11 @@
 # limitations under the License.
 from cassis import Cas
 
-import jieba
 from simalign import SentenceAligner
 
 from ariadne.classifier import Classifier
-from ariadne.contrib.inception_util import create_prediction, SENTENCE_TYPE
+from ariadne.contrib.inception_util import SENTENCE_TYPE
+
 
 class SimAligner(Classifier):
     def __init__(self):

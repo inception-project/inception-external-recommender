@@ -17,7 +17,6 @@ from cassis import Cas
 
 import nltk
 
-
 from ariadne.classifier import Classifier
 from ariadne.contrib.inception_util import create_prediction, TOKEN_TYPE
 

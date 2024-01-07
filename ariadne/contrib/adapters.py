@@ -22,9 +22,7 @@ from transformers import (
     AutoTokenizer,
     AutoConfig,
     AutoModelForTokenClassification,
-    AutoModelForSequenceClassification,
     AutoModelWithHeads,
-    BertModelWithHeads,
 )
 
 from ariadne.classifier import Classifier
