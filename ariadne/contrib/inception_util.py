@@ -15,6 +15,7 @@
 # limitations under the License.
 from typing import Optional
 
+import deprecation
 from cassis import Cas
 from cassis.typesystem import FeatureStructure
 
@@ -26,6 +27,7 @@ FEATURE_NAME_SCORE_EXPLANATION_SUFFIX = "_score_explanation"
 FEATURE_NAME_AUTO_ACCEPT_MODE_SUFFIX = "_auto_accept"
 
 
+@deprecation.deprecated(details="Use create_span_prediction()")
 def create_prediction(
     cas: Cas,
     layer: str,
@@ -37,8 +39,22 @@ def create_prediction(
     score_explanation: Optional[str] = None,
     auto_accept: Optional[bool] = None,
 ) -> FeatureStructure:
+    return create_span_prediction(cas, layer, feature, begin, end, label, score, score_explanation, auto_accept)
+
+
+def create_span_prediction(
+    cas: Cas,
+    layer: str,
+    feature: str,
+    begin: int,
+    end: int,
+    label: str,
+    score: Optional[int] = None,
+    score_explanation: Optional[str] = None,
+    auto_accept: Optional[bool] = None,
+) -> FeatureStructure:
     """
-    Create a prediction
+    Create a span prediction
 
     :param cas: the annotated document
     :param layer: the layer on which to create the prediction
@@ -54,6 +70,55 @@ def create_prediction(
     AnnotationType = cas.typesystem.get_type(layer)
 
     fields = {"begin": begin, "end": end, IS_PREDICTION: True, feature: label}
+    prediction = AnnotationType(**fields)
+
+    if score is not None:
+        prediction[f"{feature}{FEATURE_NAME_SCORE_SUFFIX}"] = score
+
+    if score_explanation is not None:
+        prediction[f"{feature}{FEATURE_NAME_SCORE_EXPLANATION_SUFFIX}"] = score_explanation
+
+    if auto_accept is not None:
+        prediction[f"{feature}{FEATURE_NAME_AUTO_ACCEPT_MODE_SUFFIX}"] = auto_accept
+
+    return prediction
+
+
+def create_relation_prediction(
+    cas: Cas,
+    layer: str,
+    feature: str,
+    source: FeatureStructure,
+    target: FeatureStructure,
+    label: str,
+    score: Optional[int] = None,
+    score_explanation: Optional[str] = None,
+    auto_accept: Optional[bool] = None,
+) -> FeatureStructure:
+    """
+    Create a relation prediction
+
+    :param cas: the annotated document
+    :param layer: the layer on which to create the prediction
+    :param feature: the feature to predict
+    :param source: the source of the relation
+    :param target: the target of the relation
+    :param label: the predicted label
+    :param score: the score
+    :param score_explanation: a rationale for the score / prediction
+    :param auto_accept: whether the prediction should be automatically accepted
+    :return: the prediction annotation
+    """
+    AnnotationType = cas.typesystem.get_type(layer)
+
+    fields = {
+        "begin": target.begin,
+        "end": target.end,
+        "Governor": source,
+        "Dependent": target,
+        IS_PREDICTION: True,
+        feature: label,
+    }
     prediction = AnnotationType(**fields)
 
     if score is not None:

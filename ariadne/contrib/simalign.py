@@ -18,10 +18,20 @@ from cassis import Cas
 from simalign import SentenceAligner
 
 from ariadne.classifier import Classifier
-from ariadne.contrib.inception_util import SENTENCE_TYPE
+from ariadne.contrib.inception_util import SENTENCE_TYPE, create_relation_prediction
+
+SPAN_ANNOTATION_TYPE = "webanno.custom.Base"
 
 
 class SimAligner(Classifier):
+    """
+    Alignment of words in two sentences.
+
+    The recommender assumes that there are exactly two sentences in the CAS.
+    For each of the tokens, there must be an annotation of type `webanno.custom.Base`.
+    The recommender then will predict relations between these base annotations.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -30,34 +40,18 @@ class SimAligner(Classifier):
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         sentences = cas.select(SENTENCE_TYPE)
 
-        src_tokens = cas.select_covered("webanno.custom.Base", sentences[0])
-        trg_tokens = cas.select_covered("webanno.custom.Base", sentences[1])
+        src_tokens = cas.select_covered(SPAN_ANNOTATION_TYPE, sentences[0])
+        trg_tokens = cas.select_covered(SPAN_ANNOTATION_TYPE, sentences[1])
 
         src_sentence = [e.get_covered_text() for e in src_tokens]
         trg_sentence = [e.get_covered_text() for e in trg_tokens]
 
-        print(src_sentence)
-        print(trg_sentence)
-
         alignments = self._aligner.get_word_aligns(src_sentence, trg_sentence)
-
-        Relation = cas.typesystem.get_type(layer)
-        print(list(Relation.all_features))
 
         for matching_method in alignments:
             for source_idx, target_idx in alignments[matching_method]:
-                src = src_tokens[source_idx]
-                target = trg_tokens[target_idx]
-                prediction = Relation(
-                    Governor=src,
-                    Dependent=target,
-                    begin=target.begin,
-                    end=target.end,
-                    inception_internal_predicted=True,
+                prediction = create_relation_prediction(
+                    cas, layer, feature, src_tokens[source_idx], trg_tokens[target_idx], ""
                 )
-                # setattr(prediction, feature, f"{src.get_covered_text()} -> {target.get_covered_text()}")
-                setattr(prediction, feature, "")
-                print(source_idx, target_idx, prediction)
-
                 cas.add_annotation(prediction)
             break

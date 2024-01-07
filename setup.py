@@ -36,6 +36,7 @@ install_requires = [
     "dkpro-cassis>=0.7.6",
     "joblib",
     "gunicorn",
+    "deprecation",
 ]
 
 contrib_dependencies = [
@@ -48,7 +49,8 @@ contrib_dependencies = [
     "jieba~=0.42",
     "sentence-transformers~=2.2.2",
     "lightgbm~=4.2.0",
-    "diskcache~=5.2.1"
+    "diskcache~=5.2.1",
+    "simalign~=0.4"
 ]
 
 test_dependencies = [
