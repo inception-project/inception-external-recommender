@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("sklearn_crfsuite")
+
 from pathlib import Path
 
 from ariadne.contrib.sklearn import SklearnSentenceClassifier
