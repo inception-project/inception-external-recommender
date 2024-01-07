@@ -45,8 +45,8 @@ def load_newsgroup_training_data() -> List[TrainingDocument]:
 
         begin = 0
         end = len(text)
-        cas.add_annotation(Sentence(begin=begin, end=end))
-        cas.add_annotation(PredictedType(begin=begin, end=end, value=target_names[target]))
+        cas.add(Sentence(begin=begin, end=end))
+        cas.add(PredictedType(begin=begin, end=end, value=target_names[target]))
 
         doc = TrainingDocument(cas, f"doc_{i}", USER)
         docs.append(doc)
@@ -58,7 +58,7 @@ def load_newsgroup_test_data() -> List[Cas]:
     twenty_test = fetch_20newsgroups(subset="test", categories=NEWSGROUP_CATEGORIES, shuffle=True, random_state=42)
 
     typesystem = build_typesystem()
-    SentenceType = typesystem.get_type(SENTENCE_TYPE)
+    Sentence = typesystem.get_type(SENTENCE_TYPE)
 
     result = []
     for text in twenty_test.data[:5]:
@@ -67,7 +67,7 @@ def load_newsgroup_test_data() -> List[Cas]:
 
         begin = 0
         end = len(text)
-        cas.add_annotation(SentenceType(begin=begin, end=end))
+        cas.add(Sentence(begin=begin, end=end))
 
         result.append(cas)
 
