@@ -97,6 +97,6 @@ def build_typesystem() -> TypeSystem:
     typesystem = TypeSystem()
     typesystem.create_type(SENTENCE_TYPE)
     PredictedType = typesystem.create_type(PREDICTED_TYPE)
-    typesystem.add_feature(PredictedType, PREDICTED_FEATURE, TYPE_NAME_STRING)
-    typesystem.add_feature(PredictedType, IS_PREDICTION, TYPE_NAME_BOOLEAN)
+    typesystem.create_feature(PredictedType, PREDICTED_FEATURE, TYPE_NAME_STRING)
+    typesystem.create_feature(PredictedType, IS_PREDICTION, TYPE_NAME_BOOLEAN)
     return typesystem

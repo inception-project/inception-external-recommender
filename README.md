@@ -24,9 +24,16 @@ listed and explained below:
 <!--- * `doc` for being able to build the documentation % -->
 * `dev` for being able to develop this package
 
+Note that depending on your system, it may be necessary to install certain system libraries manually
+before activating the contrib dependencies. For example on macOS, `libomp` is required by the `lightgbm`
+contrib dependency:
+
+    brew install libomp
+
 To install for example the `contrib` dependencies run:
     
     pip install -e ".[contrib]"
+
  
 ## Starting a simple recommender
 

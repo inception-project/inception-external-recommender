@@ -26,4 +26,4 @@ class JiebaSegmenter(Classifier):
         result = jieba.tokenize(cas.sofa_string)
         for tk in result:
             prediction = create_prediction(cas, layer, feature, tk[1], tk[2], tk[0])
-            cas.add_annotation(prediction)
+            cas.add(prediction)

@@ -56,7 +56,7 @@ def _load_data() -> Cas:
     cas = Cas()
     cas.sofa_string = text.strip()
     predicted_type = cas.typesystem.create_type(_PREDICTED_TYPE)
-    cas.typesystem.add_feature(predicted_type, _PREDICTED_FEATURE, "uima.cas.String")
-    cas.typesystem.add_feature(predicted_type, "inception_internal_predicted", "uima.cas.Boolean")
+    cas.typesystem.create_feature(predicted_type, _PREDICTED_FEATURE, "uima.cas.String")
+    cas.typesystem.create_feature(predicted_type, "inception_internal_predicted", "uima.cas.Boolean")
 
     return cas

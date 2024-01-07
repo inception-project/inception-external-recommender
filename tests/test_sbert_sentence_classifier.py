@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pytest
 
-pytest.importorskip("lightgbm.LGBMClassifier")
+#pytest.importorskip("lightgbm.LGBMClassifier")
 
 from ariadne.contrib.sbert import SbertSentenceClassifier
 

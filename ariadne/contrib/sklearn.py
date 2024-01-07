@@ -60,7 +60,7 @@ class SklearnSentenceClassifier(Classifier):
                 if label is None:
                     continue
 
-                sentences.append(cas.get_covered_text(sentence))
+                sentences.append(sentence.get_covered_text())
                 targets.append(label)
 
         model = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("clf", MultinomialNB())])
@@ -79,7 +79,7 @@ class SklearnSentenceClassifier(Classifier):
         for sentence in cas.select(SENTENCE_TYPE):
             predicted = model.predict([sentence.get_covered_text()])[0]
             prediction = create_prediction(cas, layer, feature, sentence.begin, sentence.end, predicted)
-            cas.add_annotation(prediction)
+            cas.add(prediction)
 
 
 # https://sklearn-crfsuite.readthedocs.io/en/latest/tutorial.html#let-s-use-conll-2002-data-to-build-a-ner-system

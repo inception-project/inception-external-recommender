@@ -87,7 +87,7 @@ class SbertSentenceClassifier(Classifier):
                 if label is None:
                     continue
 
-                sentences.append(cas.get_covered_text(sentence))
+                sentences.append(sentence.get_covered_text())
                 targets.append(label)
 
         featurized_sentences = featurizer.featurize(sentences)
@@ -112,7 +112,7 @@ class SbertSentenceClassifier(Classifier):
 
         for sentence, featurized_sentence, label in zip(sentences, featurized_sentences, predictions):
             prediction = create_prediction(cas, layer, feature, sentence.begin, sentence.end, label)
-            cas.add_annotation(prediction)
+            cas.add(prediction)
 
     def _get_featurizer(self):
         return CachedSentenceTransformer("distilbert-base-nli-mean-tokens")

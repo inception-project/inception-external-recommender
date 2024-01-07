@@ -38,7 +38,7 @@ class SpacyNerClassifier(Classifier):
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
         cas_tokens = cas.select(TOKEN_TYPE)
-        words = [cas.get_covered_text(cas_token) for cas_token in cas_tokens]
+        words = [cas_token.get_covered_text() for cas_token in cas_tokens]
 
         doc = Doc(self._model.vocab, words=words)
 
@@ -51,7 +51,7 @@ class SpacyNerClassifier(Classifier):
             end = cas_tokens[named_entity.end - 1].end
             label = named_entity.label_
             prediction = create_prediction(cas, layer, feature, begin, end, label)
-            cas.add_annotation(prediction)
+            cas.add(prediction)
 
 
 class SpacyPosClassifier(Classifier):
@@ -66,7 +66,7 @@ class SpacyPosClassifier(Classifier):
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the tokens from the CAS and create a spacy doc from it
-        words = [cas.get_covered_text(cas_token) for cas_token in cas.select(TOKEN_TYPE)]
+        words = [cas_token.get_covered_text() for cas_token in cas.select(TOKEN_TYPE)]
 
         doc = Doc(self._model.vocab, words=words)
 
@@ -77,4 +77,4 @@ class SpacyPosClassifier(Classifier):
         # For every token, extract the POS tag and create an annotation in the CAS
         for cas_token, spacy_token in zip(cas.select(TOKEN_TYPE), doc):
             prediction = create_prediction(cas, layer, feature, cas_token.begin, cas_token.end, spacy_token.tag_)
-            cas.add_annotation(prediction)
+            cas.add(prediction)
