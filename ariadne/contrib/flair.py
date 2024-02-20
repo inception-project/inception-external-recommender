@@ -15,12 +15,11 @@ class FlairNERClassifier(Classifier):
         self._model = Tagger.load(model_name)
         self._split_sentences = split_sentences
 
-    def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
-        # if split_sentences
-        # Extract the sentences from the CAS, we leave tokenization to flair
+    def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str): 
+        # Extract the sentences from the CAS
         if self._split_sentences:
             cas_sents = cas.select(SENTENCE_TYPE)
-            sents = [Sentence(sent.get_covered_text()) for sent in cas_sents]
+            sents = [Sentence(sent.get_covered_text(), use_tokenizer=False) for sent in cas_sents]
             offsets = [sent.begin for sent in cas_sents]
 
             # Find the named entities
@@ -37,11 +36,24 @@ class FlairNERClassifier(Classifier):
 
         else:
             cas_tokens = cas.select(TOKEN_TYPE)
-            sent = Sentence([cas_token.get_covered_text() for cas_token in cas_tokens])
+
+            # build sentence with correct whitespaces
+            # (when using sentences, this should not be a problem afaik)
+            text = ""
+            last_end = 0
+            for cas_token in cas_tokens:
+                if cas_token.begin == last_end:
+                    text += cas_token.get_covered_text()
+                else:
+                    text += " " + cas_token.get_covered_text()
+                last_end = cas_token.end
+
+            sent = Sentence(text, use_tokenizer=False)
             
             self._model.predict(sent)
 
             for named_entity in sent.to_dict()["entities"]:
+                print(named_entity)
                 begin = named_entity["start_pos"]
                 end = named_entity["end_pos"]
                 label = named_entity["labels"][0]["value"]
