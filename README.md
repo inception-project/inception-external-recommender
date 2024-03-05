@@ -108,6 +108,7 @@ following table provides an overview about them:
 | SpacyPosClassifier | Part-of-speech prediction with [spaCy](https://spacy.io/) | no |
 | AdapterSequenceTagger | Sequence tagger using [Adapters](https://adapterhub.ml/) | no |
 | AdapterSentenceClassifier | Sentence classifier using [Adapters](https://adapterhub.ml/) | no |
+| FlairNERClassifier | Sequence tagger using [Flair](https://flairnlp.github.io/) | no |
 
 For using trainable recommenders it is important to check the checkbox *Trainable* when adding
 the external recommender to your project. To be able to get predictions of a added trainable

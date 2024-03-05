@@ -28,12 +28,12 @@ DESCRIPTION = "INCEpTION external recommender library in Python"
 HOMEPAGE = "https://inception-project.github.io/"
 EMAIL = "inception-users@googlegroups.com"
 AUTHOR = "The INCEpTION team"
-REQUIRES_PYTHON = ">=3.6.0"
+REQUIRES_PYTHON = ">=3.8.0"
 
 install_requires = [
     "flask",
     "filelock",
-    "dkpro-cassis>=0.7.6",
+    "dkpro-cassis>=0.9.1",
     "joblib",
     "gunicorn",
     "deprecation",
@@ -50,7 +50,8 @@ contrib_dependencies = [
     "sentence-transformers~=2.2.2",
     "lightgbm~=4.2.0",
     "diskcache~=5.2.1",
-    "simalign~=0.4"
+    "simalign~=0.4",
+    "flair>=0.13.1"
 ]
 
 test_dependencies = [
