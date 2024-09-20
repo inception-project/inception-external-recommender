@@ -41,7 +41,7 @@ install_requires = [
 
 contrib_dependencies = [
     "numpy>=1.24.2",
-    "scikit-learn>=1.0.1", 
+    "scikit-learn>=1.0.1",
     "sklearn_crfsuite~=0.3.6",
 #    "rust_fst~=0.1.2",
     "spacy~=3.5.2",
@@ -52,7 +52,7 @@ contrib_dependencies = [
     "diskcache~=5.2.1",
     "simalign~=0.4",
     "flair>=0.13.1"
-     "transformers~=4.41.1", # TransformerNerClassifier
+    "transformers[torch]~=4.41.1", # TransformerNerClassifier
 ]
 
 test_dependencies = [
