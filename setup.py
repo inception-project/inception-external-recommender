@@ -51,7 +51,7 @@ contrib_dependencies = [
     "lightgbm~=4.2.0",
     "diskcache~=5.2.1",
     "simalign~=0.4",
-    "flair>=0.13.1"
+    "flair>=0.13.1",
     "transformers[torch]~=4.41.1", # TransformerNerClassifier
 ]
 
