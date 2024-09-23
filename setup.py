@@ -59,7 +59,7 @@ test_dependencies = [
     "tox",
     "pytest",
     "codecov",
-    "pytest-cov",
+    "pytest-cov", 
 ]
 
 dev_dependencies = [
