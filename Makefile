@@ -3,7 +3,7 @@ PYTHON_FILES = tests
 test:
 	python -m pytest -m "not performance" tests/
 
-gunicorn:
+serve:
 	gunicorn -w 4 -b 127.0.0.1:5000 --reload wsgi:app
 
 black:

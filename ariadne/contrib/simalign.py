@@ -53,5 +53,5 @@ class SimAligner(Classifier):
                 prediction = create_relation_prediction(
                     cas, layer, feature, src_tokens[source_idx], trg_tokens[target_idx], ""
                 )
-                cas.add_annotation(prediction)
+                cas.add(prediction)
             break

@@ -31,11 +31,7 @@ def fix_whitespaces(cas_tokens):
             dist = following_cas_token.begin - cas_token.end
         else:
             dist = 1
-        token = Token(
-            cas_token.get_covered_text(),
-            whitespace_after=dist,
-            start_position=cas_token.begin
-        )         
+        token = Token(cas_token.get_covered_text(), whitespace_after=dist, start_position=cas_token.begin)
         tokens.append(token)
     return tokens
 
@@ -46,7 +42,7 @@ class FlairNERClassifier(Classifier):
         self._model = Tagger.load(model_name)
         self._split_sentences = split_sentences
 
-    def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str): 
+    def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         # Extract the sentences from the CAS
         if self._split_sentences:
             sentences = []
@@ -67,13 +63,13 @@ class FlairNERClassifier(Classifier):
                     end = named_entity.end_position
                     label = named_entity.tag
                     prediction = create_prediction(cas, layer, feature, begin, end, label)
-                    cas.add(prediction) 
+                    cas.add(prediction)
 
         else:
             cas_tokens = cas.select(TOKEN_TYPE)
             text = fix_whitespaces(cas_tokens)
             sent = Sentence(text)
-            
+
             self._model.predict(sent)
 
             for named_entity in sent.get_spans():
@@ -81,4 +77,4 @@ class FlairNERClassifier(Classifier):
                 end = named_entity.end_position
                 label = named_entity.tag
                 prediction = create_prediction(cas, layer, feature, begin, end, label)
-                cas.add(prediction) 
+                cas.add(prediction)

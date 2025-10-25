@@ -31,4 +31,4 @@ class NltkStemmer(Classifier):
             begin = cas_token.begin
             end = begin + len(stem)
             prediction = create_prediction(cas, layer, feature, begin, end, stem)
-            cas.add_annotation(prediction)
+            cas.add(prediction)

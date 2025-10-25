@@ -165,7 +165,7 @@ class SklearnMentionDetector(Classifier):
                 if begin is not None and end is not None:
                     if tag == "O" or (tag.startswith("B") and prev_tag.startswith("I")):
                         prediction = create_prediction(cas, layer, feature, begin, end, "X")
-                        cas.add_annotation(prediction)
+                        cas.add(prediction)
 
                 if tag.startswith("B"):
                     begin = token.begin

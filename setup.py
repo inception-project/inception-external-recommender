@@ -28,7 +28,7 @@ DESCRIPTION = "INCEpTION external recommender library in Python"
 HOMEPAGE = "https://inception-project.github.io/"
 EMAIL = "inception-users@googlegroups.com"
 AUTHOR = "The INCEpTION team"
-REQUIRES_PYTHON = ">=3.8.0"
+REQUIRES_PYTHON = ">=3.9.0"
 
 install_requires = [
     "flask",
@@ -40,19 +40,20 @@ install_requires = [
 ]
 
 contrib_dependencies = [
-    "numpy>=1.24.2",
     "scikit-learn>=1.0.1",
     "sklearn_crfsuite~=0.3.6",
 #    "rust_fst~=0.1.2",
-    "spacy~=3.5.2",
+    "numpy>=1.24.0,<3.0.0",
+    "huggingface_hub>=0.23.0",
+    "spacy>=3.7.0",
     "nltk~=3.5",
     "jieba~=0.42",
-    "sentence-transformers~=2.2.2",
+    "sentence-transformers>=3.0.0",
     "lightgbm~=4.2.0",
     "diskcache~=5.2.1",
     "simalign~=0.4",
     "flair>=0.13.1",
-    "transformers[torch]~=4.41.1", # TransformerNerClassifier
+    "transformers[torch]>=4.41.0",
 ]
 
 test_dependencies = [

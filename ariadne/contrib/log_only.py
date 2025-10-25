@@ -23,7 +23,11 @@ from ariadne.protocol import TrainingDocument
 
 class LogOnlyRecommender(Classifier):
     def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id, user_id: str):
-        print(f'Training triggered for [{feature}] on [{layer}] in [{len(documents)}] documents from project [{project_id}] for user [{user_id}]')
+        print(
+            f"Training triggered for [{feature}] on [{layer}] in [{len(documents)}] documents from project [{project_id}] for user [{user_id}]"
+        )
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
-        print(f'Prediction triggered on document [{document_id}] for [{feature}] on [{layer}] in project [{project_id}] for user [{user_id}]')
+        print(
+            f"Prediction triggered on document [{document_id}] for [{feature}] on [{layer}] in project [{project_id}] for user [{user_id}]"
+        )
