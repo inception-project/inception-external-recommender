@@ -81,7 +81,7 @@ class AdapterSequenceTagger(Classifier):
                 end = token.end
                 label = Counter([self._label_map[pred] for pred in grouped_prediction]).most_common(1)[0][0]
                 prediction = create_prediction(cas, layer, feature, begin, end, label)
-                cas.add_annotation(prediction)
+                cas.add(prediction)
 
     def _tokenize_bert(self, cas_tokens: List[str]) -> List[torch.Tensor]:
         grouped_bert_tokens = [torch.LongTensor([self._tokenizer.cls_token_id])]
@@ -191,7 +191,7 @@ class AdapterSentenceClassifier(Classifier):
             label_id = torch.argmax(outputs[0]).item()
             label = self._label_map[label_id]
             prediction = create_prediction(cas, layer, feature, sentence.begin, sentence.end, label)
-            cas.add_annotation(prediction)
+            cas.add(prediction)
 
     def _build_model(self):
         model = AutoModelWithHeads.from_pretrained(self._base_model_name)

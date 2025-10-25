@@ -14,10 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from transformers import  pipeline, AutoTokenizer, AutoModelForTokenClassification
+from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 from ariadne.classifier import Classifier
 from ariadne.contrib.inception_util import create_prediction
 from cassis import Cas
+
 
 class TransformerNerClassifier(Classifier):
     def __init__(self, model_name: str):
@@ -27,16 +28,12 @@ class TransformerNerClassifier(Classifier):
         self.model = AutoModelForTokenClassification.from_pretrained(model_name)
         self.ner_pipeline = pipeline("ner", model=self.model, tokenizer=self.tokenizer, aggregation_strategy="first")
 
-
-    
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
-        
         document_text = cas.sofa_string
         predictions = self.ner_pipeline(document_text)
         for prediction in predictions:
-            start_char = prediction['start']
-            end_char = prediction['end']
-            label = prediction['entity_group']
+            start_char = prediction["start"]
+            end_char = prediction["end"]
+            label = prediction["entity_group"]
             cas_prediction = create_prediction(cas, layer, feature, start_char, end_char, label)
-            cas.add(cas_prediction) 
-        
+            cas.add(cas_prediction)

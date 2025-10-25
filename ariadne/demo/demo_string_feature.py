@@ -75,6 +75,6 @@ class DemoStringFeatureRecommender(Classifier):
             if mention in model:
                 label = model.get(mention)
                 suggestion = create_span_prediction(cas, layer, feature, token.begin, token.begin + len(mention), label)
-                cas.add_annotation(suggestion)
+                cas.add(suggestion)
 
         logger.info(f"Prediction finished for user [%s]", user_id)

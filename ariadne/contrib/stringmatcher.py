@@ -90,7 +90,7 @@ class LevenshteinStringMatcher(Classifier):
             for mention, label_id in m.search(term=term, max_dist=2):
                 label = le.inverse_transform([label_id])[0]
                 prediction = create_prediction(cas, layer, feature, begin, end, label)
-                cas.add_annotation(prediction)
+                cas.add(prediction)
 
     def _generate_candidates(self, cas: Cas, n: int):
         # We generate token n-grams

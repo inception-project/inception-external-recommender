@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 FEAT_REL_SOURCE = "Governor"
 FEAT_REL_TARGET = "Dependent"
 
+
 class DemoRelationLayerRecommender(Classifier):
     """
     Simple demo recommender for relation layers.
@@ -117,6 +118,6 @@ class DemoRelationLayerRecommender(Classifier):
                         prediction = create_relation_prediction(
                             cas, layer, feature, source, target, relation_label, score
                         )
-                        cas.add_annotation(prediction)
+                        cas.add(prediction)
 
         logger.info("Prediction finished for user [%s]", user_id)

@@ -77,7 +77,6 @@ class DemoLinkFeatureRecommender(Classifier):
         for source in cas.select(layer):
             source_text = source.get_covered_text().lower()
             if source_text in model:
-
                 sentence = list(
                     cas.select_covering("de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence", source)
                 )
@@ -96,6 +95,6 @@ class DemoLinkFeatureRecommender(Classifier):
                         FSArray = cas.typesystem.get_type("uima.cas.FSArray")
                         links = FSArray(elements=[link])
                         suggestion = create_span_prediction(cas, layer, feature, source.begin, source.end, links)
-                        cas.add_annotation(suggestion)
+                        cas.add(suggestion)
 
         logger.info("Prediction finished for user [%s]", user_id)

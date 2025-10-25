@@ -93,6 +93,22 @@ def load_obama() -> Cas:
     return cas
 
 
+def create_cas() -> Cas:
+    # https://stackoverflow.com/a/20885799
+    try:
+        import importlib.resources as pkg_resources
+    except ImportError:
+        # Try backported to PY<37 `importlib_resources`.
+        import importlib_resources as pkg_resources
+
+    from . import resources  # relative-import the *package* containing the templates
+
+    with pkg_resources.open_binary(resources, "INCEpTION_TypeSystem.xml") as f:
+        typesystem = merge_typesystems(load_typesystem(f), build_typesystem())
+    cas = Cas(typesystem=typesystem)
+    return cas
+
+
 def build_typesystem() -> TypeSystem:
     typesystem = TypeSystem()
     typesystem.create_type(SENTENCE_TYPE)

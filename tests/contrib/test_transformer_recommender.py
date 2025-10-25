@@ -17,7 +17,7 @@ import pytest
 
 pytest.importorskip("transformers")
 
-from ariadne.contrib.transformers import TransformerNerClassifier  
+from ariadne.contrib.transformers import TransformerNerClassifier
 from tests.util import load_obama, PREDICTED_TYPE, PREDICTED_FEATURE, PROJECT_ID, USER
 
 
