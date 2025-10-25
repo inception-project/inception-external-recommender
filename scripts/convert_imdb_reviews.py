@@ -86,7 +86,7 @@ def main():
         write_sentence_documents(sentences, labels, doc_name)
 
     sentences, labels = read_data(unsup)
-    write_sentence_documents(sentences, labels, PATH_DATASETS_IMDB_EXTRACTED / f"imdb_unlabeled.xmi", labeled=False)
+    write_sentence_documents(sentences, labels, PATH_DATASETS_IMDB_EXTRACTED / "imdb_unlabeled.xmi", labeled=False)
 
 
 if __name__ == "__main__":

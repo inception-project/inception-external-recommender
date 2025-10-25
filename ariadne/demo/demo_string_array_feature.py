@@ -58,7 +58,7 @@ class DemoStringArrayFeatureRecommender(Classifier):
         logger.info(f"Best labels: {best_labels}")
         self._save_model(user_id, best_labels)
 
-        logger.info(f"Training finished for user [%s]", user_id)
+        logger.info("Training finished for user [%s]", user_id)
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         logger.info(
@@ -83,4 +83,4 @@ class DemoStringArrayFeatureRecommender(Classifier):
                 )
                 cas.add(suggestion)
 
-        logger.info(f"Prediction finished for user [%s]", user_id)
+        logger.info("Prediction finished for user [%s]", user_id)
