@@ -163,6 +163,6 @@ do not need to run INCEpTION during (early) development.
 
 The simplest way to develop in deployment setting, that is using `gunicorn` is to just run
 
-    make gunicorn
+    make serve
     
 This starts `gunicorn` with 4 workers and hot-code reloading.

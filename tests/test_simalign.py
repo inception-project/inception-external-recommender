@@ -45,15 +45,17 @@ def test_predict():
     pairs = [
         (r.get("Governor").get_covered_text(), r.get("Dependent").get_covered_text()) for r in cas.select(Relation)
     ]
-    assert set(pairs) == set([
-        ("red", "Red"),
-        ("do", "is"),
-        ("the", "the"),
-        ("color", "color"),
-        ("I", "I"),
-        ("like", "like"),
-        (".", "."),
-    ])
+    assert set(pairs) == set(
+        [
+            ("red", "Red"),
+            ("do", "is"),
+            ("the", "the"),
+            ("color", "color"),
+            ("I", "I"),
+            ("like", "like"),
+            (".", "."),
+        ]
+    )
 
 
 def tokenize(string):

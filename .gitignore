@@ -211,3 +211,4 @@ dmypy.json
 /lvenv/
 /models/*
 /cache
+.vscode

@@ -74,14 +74,14 @@ class Server:
             # The lock needs to be acquired out here, not in the fn scope, else it would
             # just throw the Timeout inside fn.
             lock = self._get_lock(classifier.name, user_id)
-            logger.debug(f'Acquiring lock for [{user_id}, {classifier.name}]')
+            logger.debug(f"Acquiring lock for [{user_id}, {classifier.name}]")
             lock.acquire()
 
             def _fn():
                 try:
                     classifier.fit(req.documents, req.layer, req.feature, req.project_id, user_id)
                 finally:
-                    logger.debug(f'Releasing lock for [{user_id}, {classifier.name}]')
+                    logger.debug(f"Releasing lock for [{user_id}, {classifier.name}]")
                     lock.release()
 
             # We spawn a thread and run the training in there so that this HTTP request can return directly
