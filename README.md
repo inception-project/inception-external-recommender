@@ -1,6 +1,6 @@
 # inception-external-recommender
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 This repository provides **[ariadne](https://inception.fandom.com/wiki/Ariadne)**, a library 
 to run and implement external recommenders for INCEpTION using Python.
@@ -10,10 +10,16 @@ You can watch external recommender in action in the follwing video:
 [![Alt text](https://img.youtube.com/vi/LTgtii7gEWg/0.jpg)](https://www.youtube.com/watch?v=LTgtii7gEWg)
 
 ## Install required packages
-For installing the required packages we provide a `setup.py` to simplify the process. To install
-the basic requirements just run 
+
+This project uses [uv](https://docs.astral.sh/uv/) for fast, reliable package management. 
+
+First, install uv if you haven't already:
+
+    pip install uv
+
+Then install the basic requirements:
     
-    pip install -e .
+    uv pip install -e .
 
 There are further requirements which need to be fulfilled depending on the use case. They are
 listed and explained below:
@@ -32,7 +38,7 @@ contrib dependency:
 
 To install for example the `contrib` dependencies run:
     
-    pip install -e ".[contrib]"
+    uv pip install -e ".[contrib]"
 
  
 ## Starting a simple recommender
@@ -84,9 +90,13 @@ See `ariadne/contrib/sklearn.py` for examples.
 
 In order to support multiple users at once, the recommender server needs to be started on
 a wsgi server. This can e.g. be done via [gunicorn](https://gunicorn.org/). We provide an
-example in `wsgi.py` which can be run on `gunicorn` via
+example in `wsgi.py` which can be run via
 
-    gunicorn -w 4 -b 127.0.0.1:5000 wsgi:app
+    uv run task serve
+    
+Or directly with gunicorn:
+
+    uv run gunicorn -w 4 -b 127.0.0.1:5000 wsgi:app
     
 This runs the recommendation server with 4 workers, that means at least 4 users can use the 
 server at the same time. Make sure to scale this to your needs. Also adjust the IP adress
@@ -142,12 +152,22 @@ This recommender uses [S-BERT](https://github.com/UKPLab/sentence-transformers) 
 The following section describes how to develop your own recommender. **inception-recommender** 
 comes with example requests which can be found in `examples/requests`.
 
+### Available Tasks
+
+We use [taskipy](https://github.com/illBeRoy/taskipy) for common development tasks:
+
+    uv run task test     # Run tests
+    uv run task serve    # Start development server with hot-reload
+    uv run task format   # Format code with ruff
+    uv run task lint     # Check code with ruff linter
+    uv run task fix      # Auto-fix linting issues
+
 ### Tester
 
 The tester allows to send different requests to your external recommender, thereby you
 do not need to run INCEpTION during (early) development.
 
-    $ python scripts/tester.py train -h
+    $ uv run python scripts/tester.py train -h
     usage: tester.py [-h] [-u USER] {train,predict}
     
     Test your INCEpTION external recommender.
@@ -163,6 +183,6 @@ do not need to run INCEpTION during (early) development.
 
 The simplest way to develop in deployment setting, that is using `gunicorn` is to just run
 
-    make serve
+    uv run task serve
     
 This starts `gunicorn` with 4 workers and hot-code reloading.

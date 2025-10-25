@@ -92,9 +92,9 @@ class SbertSentenceClassifier(Classifier):
 
         featurized_sentences = featurizer.featurize(sentences)
 
-        logger.debug(f"Training started for user [%s]", user_id)
+        logger.debug("Training started for user [%s]", user_id)
         model = LGBMClassifier().fit(featurized_sentences, targets)
-        logger.debug(f"Training finished for user [%s]", user_id)
+        logger.debug("Training finished for user [%s]", user_id)
 
         self._save_model(user_id, model)
 

@@ -50,8 +50,8 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(sentences, labels, test_size=0.2)
 
-    write_sentence_documents(X_train, y_train, PATH_DATASETS_SLS / f"sls_imdb_labeled.xmi")
-    write_sentence_documents(X_test, y_test, PATH_DATASETS_SLS / f"sls_imdb_unlabeled.xmi", labeled=False)
+    write_sentence_documents(X_train, y_train, PATH_DATASETS_SLS / "sls_imdb_labeled.xmi")
+    write_sentence_documents(X_test, y_test, PATH_DATASETS_SLS / "sls_imdb_unlabeled.xmi", labeled=False)
 
 
 if __name__ == "__main__":

@@ -69,7 +69,7 @@ class LevenshteinStringMatcher(Classifier):
 
         items = [(k, v) for k, v in sorted(zip(mentions, le.transform(labels)))]
 
-        logger.debug(f"Training finished for user [%s]", user_id)
+        logger.debug("Training finished for user [%s]", user_id)
 
         self._save_model(user_id, (le, items))
 
