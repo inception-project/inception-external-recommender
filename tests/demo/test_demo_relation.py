@@ -22,10 +22,9 @@ from ariadne.demo.demo_relation import DemoRelationLayerRecommender
 def test_demo_relation_recommender():
     typesystem = TypeSystem()
 
-    # create sentence and a simple span annotation type
+    # create sentence, a simple span annotation type and a relation type
     Sentence = typesystem.create_type(SENTENCE_TYPE)
     Span = typesystem.create_type("custom.Span")
-    # relation type
     Relation = typesystem.create_type("custom.Relation")
 
     # features for relation: Governor and Dependent are annotations
@@ -33,7 +32,6 @@ def test_demo_relation_recommender():
     typesystem.create_feature(Relation, "Dependent", TYPE_NAME_ANNOTATION)
     typesystem.create_feature(Relation, "value", TYPE_NAME_STRING)
     typesystem.create_feature(Relation, IS_PREDICTION, TYPE_NAME_BOOLEAN)
-    # create score feature so predictions can store a numeric score
     typesystem.create_feature(Relation, "value_score", TYPE_NAME_DOUBLE)
 
     # typesystem for CAS

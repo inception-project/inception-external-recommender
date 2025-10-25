@@ -15,13 +15,11 @@
 # limitations under the License.
 from ariadne.demo.demo_string_feature import DemoStringFeatureRecommender
 from ariadne.protocol import TrainingDocument
-from ariadne.contrib.inception_util import create_span_prediction
+from ariadne.contrib.inception_util import create_span_prediction, TOKEN_TYPE
 from tests.util import create_cas, PREDICTED_TYPE, PREDICTED_FEATURE
 
-TYPE_TOKEN = "de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token"
 
-
-def test_demo_string_feature_fit_and_predict(tmp_path):
+def test_demo_string_feature_fit_and_predict():
     # Prepare a training CAS and add a PREDICTED_TYPE annotation that contains the label
     cas_train = create_cas()
     cas_train.sofa_string = "Hello world"
@@ -31,11 +29,10 @@ def test_demo_string_feature_fit_and_predict(tmp_path):
     span = create_span_prediction(cas_train, PREDICTED_TYPE, PREDICTED_FEATURE, 0, 5, "GREETING")
     cas_train.add(span)
 
-    recommender = DemoStringFeatureRecommender()
-
     # Train the recommender on the test predicted type
     docs = [TrainingDocument(cas_train, "doc1", "user1")]
 
+    recommender = DemoStringFeatureRecommender()
     recommender.fit(docs, PREDICTED_TYPE, PREDICTED_FEATURE, project_id=1, user_id="user1")
 
     # Create a new CAS to predict into and add a Token annotation for 'Hello'
@@ -43,7 +40,7 @@ def test_demo_string_feature_fit_and_predict(tmp_path):
     predict_cas.sofa_string = cas_train.sofa_string
 
     # Add Token annotations so predict() will iterate over them for both words
-    Token = predict_cas.typesystem.get_type(TYPE_TOKEN)
+    Token = predict_cas.typesystem.get_type(TOKEN_TYPE)
     predict_cas.add(Token(begin=0, end=5))
     predict_cas.add(Token(begin=6, end=11))
 
