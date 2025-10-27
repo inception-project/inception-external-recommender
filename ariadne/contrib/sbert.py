@@ -78,9 +78,9 @@ class SbertSentenceClassifier(Classifier):
                 else:
                     continue
 
-                assert (
-                    sentence.begin == annotation.begin and sentence.end == annotation.end
-                ), "Annotation should cover sentence fully!"
+                assert sentence.begin == annotation.begin and sentence.end == annotation.end, (
+                    "Annotation should cover sentence fully!"
+                )
 
                 label = getattr(annotation, feature)
 

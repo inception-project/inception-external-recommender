@@ -24,7 +24,6 @@ from ariadne.constants import SENTENCE_TYPE
 
 
 def download_file(url: str, target_path: Path):
-
     if target_path.exists():
         logging.info("File already exists: [%s]", str(target_path.resolve()))
         return
