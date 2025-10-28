@@ -28,6 +28,30 @@ logger = logging.getLogger(__name__)
 
 
 class DemoLinkFeatureRecommender(Classifier):
+    """Simple demo recommender that learns link roles between span annotations.
+
+    Training
+    --------
+    For each document, we iterate over all annotations of the given
+    ``layer`` and reads the ``feature`` field which is expected to contain
+    link objects (UIMA link relations). It counts how often a source span
+    text (lowercased) was linked to a particular target span text with a
+    given role. The model stored per-user is a nested mapping:
+    ``{source_text: {target_text: best_role}}``, where ``best_role`` is the
+    role with the highest frequency for that (source, target) pair.
+
+    Prediction
+    ----------
+    The ``predict`` method loads the per-user model and iterates over source
+    annotations in the CAS. For each source whose lowercased covered text
+    appears in the model, it looks for target annotations of the same
+    ``layer`` inside the covering sentence. If a target's lowercased text
+    matches a target recorded for the source, the recommender creates a span
+    prediction suggestion that contains a link to the found target using the
+    learned role. The suggestion is added to the CAS as a span prediction
+    feature structure.
+    """
+
     def fit(self, documents: List[TrainingDocument], layer: str, feature: str, project_id, user_id: str):
         logger.info(
             f"Training triggered for [{feature}] on [{layer}] in [{len(documents)}] documents from project [{project_id}] for user [{user_id}]"
