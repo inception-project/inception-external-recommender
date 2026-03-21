@@ -54,7 +54,8 @@ class Server:
 
         req = parse_prediction_request(json_data)
         classifier = self._classifiers[classifier_name]
-        classifier.predict(req.cas, req.layer, req.feature, req.project_id, req.document_id, req.user_id)
+        # Use the high-level hook so classifiers can access the full request
+        classifier.on_prediction_request(req)
 
         result = jsonify(document=req.cas.to_xmi())
         return result
@@ -79,7 +80,8 @@ class Server:
 
             def _fn():
                 try:
-                    classifier.fit(req.documents, req.layer, req.feature, req.project_id, user_id)
+                    # Use the high-level hook so classifiers can access the full request
+                    classifier.on_training_request(req)
                 finally:
                     logger.debug(f"Releasing lock for [{user_id}, {classifier.name}]")
                     lock.release()

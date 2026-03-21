@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 import attr
 import cassis
@@ -35,6 +35,26 @@ class PredictionRequest:
     project_id: str = attr.ib()
     document_id: str = attr.ib()
     user_id: str = attr.ib()
+    tagsets: Optional[List["MTagset"]] = attr.ib(default=None)
+
+
+@attr.s
+class MFeatureHandle:
+    type: str = attr.ib()
+    feature: str = attr.ib()
+
+
+@attr.s
+class MTag:
+    tag: str = attr.ib()
+    description: Optional[str] = attr.ib(default=None)
+
+
+@attr.s
+class MTagset:
+    description: Optional[str] = attr.ib(default=None)
+    tags: List[MTag] = attr.ib(factory=list)
+    targets: List[MFeatureHandle] = attr.ib(factory=list)
 
 
 @attr.s
@@ -83,7 +103,24 @@ def parse_prediction_request(json_object: JsonDict) -> PredictionRequest:
     document_id = document["documentId"]
     user_id = document["userId"]
 
-    return PredictionRequest(cas, layer, feature, project_id, document_id, user_id)
+    tagsets_json = json_object.get("tagsets")
+
+    tagsets = None
+    if tagsets_json is not None:
+        parsed_tagsets: List[MTagset] = []
+        for ts in tagsets_json:
+            desc = ts.get("description")
+            tags_json = ts.get("tags") or []
+            targets_json = ts.get("targets") or []
+
+            tags = [MTag(t.get("tag"), t.get("description")) for t in tags_json]
+            targets = [MFeatureHandle(t.get("type"), t.get("feature")) for t in targets_json]
+
+            parsed_tagsets.append(MTagset(desc, tags, targets))
+
+        tagsets = parsed_tagsets
+
+    return PredictionRequest(cas, layer, feature, project_id, document_id, user_id, tagsets)
 
 
 def parse_training_request(json_object: JsonDict) -> TrainingRequest:

@@ -18,6 +18,8 @@ import os
 from pathlib import Path
 from typing import List, Optional, Any
 
+from ariadne.protocol import TrainingRequest, PredictionRequest
+
 import joblib
 from cassis import Cas
 
@@ -36,6 +38,25 @@ class Classifier:
 
     def predict(self, cas: Cas, layer: str, feature: str, project_id: str, document_id: str, user_id: str):
         raise NotImplementedError()
+
+    def on_training_request(self, req: TrainingRequest):
+        """High-level hook that receives a full `TrainingRequest`.
+
+        Default implementation extracts the documents and metadata and calls
+        ``fit(documents, layer, feature, project_id, user_id)``.
+        Subclasses may override this to short-circuit, perform validation,
+        or transform the request before calling ``fit``.
+        """
+        return self.fit(req.documents, req.layer, req.feature, req.project_id, req.user_id)
+
+    def on_prediction_request(self, req: PredictionRequest):
+        """High-level hook that receives a full `PredictionRequest`.
+
+        Default implementation extracts fields and calls
+        ``predict(cas, layer, feature, project_id, document_id, user_id)``.
+        Subclasses may override to short-circuit or pre-process the request.
+        """
+        return self.predict(req.cas, req.layer, req.feature, req.project_id, req.document_id, req.user_id)
 
     def _load_model(self, user_id: str) -> Optional[Any]:
         model_path = self._get_model_path(user_id)
