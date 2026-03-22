@@ -37,7 +37,7 @@ dependencies = [
     "joblib",
     "gunicorn",
     "deprecation",
-    "scikit-learn>=1.0.1,<1.4.0",
+    "scikit-learn>=1.0.1,<1.6.0",
     "sklearn_crfsuite~=0.3.6",
     "numpy>=1.24.0,<2.0.0",
     "huggingface_hub>=0.23.0",
