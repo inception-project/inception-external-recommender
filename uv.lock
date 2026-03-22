@@ -847,7 +847,7 @@ requires-dist = [
     { name = "huggingface-hub", specifier = ">=0.23.0" },
     { name = "jieba", specifier = "~=0.42" },
     { name = "joblib" },
-    { name = "lightgbm", specifier = "~=4.2.0" },
+    { name = "lightgbm", specifier = "~=4.6.0" },
     { name = "nltk", specifier = "~=3.5" },
     { name = "numpy", specifier = ">=1.24.0,<2.0.0" },
     { name = "pip" },
@@ -1012,18 +1012,19 @@ sdist = { url = "https://files.pythonhosted.org/packages/0e/72/a3add0e4eec4eb9e2
 
 [[package]]
 name = "lightgbm"
-version = "4.2.0"
+version = "4.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
     { name = "scipy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/92/3d/209b257b7bcfaa39d54b9ab22db5097ff110c6a2f2399d5244c76c43aba2/lightgbm-4.2.0.tar.gz", hash = "sha256:8a4d051df2ab2218998a16f7712e843ee9e96d8b09ffbfcc18533da127e0da02", size = 1694670, upload-time = "2023-12-22T04:47:56.97Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/68/0b/a2e9f5c5da7ef047cc60cef37f86185088845e8433e54d2e7ed439cce8a3/lightgbm-4.6.0.tar.gz", hash = "sha256:cb1c59720eb569389c0ba74d14f52351b573af489f230032a1c9f314f8bab7fe", size = 1703705, upload-time = "2025-02-15T04:03:03.111Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/34/d0/111a224511d04e99e65b966322a2b9799903e3f9d87a52b58d594eda2151/lightgbm-4.2.0-py3-none-macosx_10_15_x86_64.macosx_11_6_x86_64.macosx_12_5_x86_64.whl", hash = "sha256:2ebf5b53e4a74d5b484698f11d13c5598e5640a8665b146ad16a173c9724a803", size = 1779055, upload-time = "2023-12-22T04:47:45.622Z" },
-    { url = "https://files.pythonhosted.org/packages/dc/94/68615677907800c68881fd1532ee116a66260d6e401d4cac968e9b751503/lightgbm-4.2.0-py3-none-manylinux2014_aarch64.whl", hash = "sha256:450e645879fad4060858e9e856a1669d6ff058f69857786bd5a2c24d3136cbc0", size = 3079512, upload-time = "2023-12-22T04:47:48.167Z" },
-    { url = "https://files.pythonhosted.org/packages/a6/11/5171f6a1ecf7f008648fef6ef780d92414763ff5ba50a796657b9275dc1e/lightgbm-4.2.0-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:4a767795253ea5872abc7cc4e0892120af9b48a10e151c03cd62116bc2f099ab", size = 3105150, upload-time = "2023-12-22T04:47:50.924Z" },
-    { url = "https://files.pythonhosted.org/packages/74/02/5ad29a2a3d193a87d5a05fb7fd3b4e30b8eb6db7a9ddbe193beb7053978f/lightgbm-4.2.0-py3-none-win_amd64.whl", hash = "sha256:a532d5dd0261b0f648c570f25edd8a03e7e85084b18acc77bd603a3a04476cb7", size = 1337926, upload-time = "2023-12-22T04:47:53.847Z" },
+    { url = "https://files.pythonhosted.org/packages/f2/75/cffc9962cca296bc5536896b7e65b4a7cdeb8db208e71b9c0133c08f8f7e/lightgbm-4.6.0-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:b7a393de8a334d5c8e490df91270f0763f83f959574d504c7ccb9eee4aef70ed", size = 2010151, upload-time = "2025-02-15T04:02:50.961Z" },
+    { url = "https://files.pythonhosted.org/packages/21/1b/550ee378512b78847930f5d74228ca1fdba2a7fbdeaac9aeccc085b0e257/lightgbm-4.6.0-py3-none-macosx_12_0_arm64.whl", hash = "sha256:2dafd98d4e02b844ceb0b61450a660681076b1ea6c7adb8c566dfd66832aafad", size = 1592172, upload-time = "2025-02-15T04:02:53.937Z" },
+    { url = "https://files.pythonhosted.org/packages/64/41/4fbde2c3d29e25ee7c41d87df2f2e5eda65b431ee154d4d462c31041846c/lightgbm-4.6.0-py3-none-manylinux2014_aarch64.whl", hash = "sha256:4d68712bbd2b57a0b14390cbf9376c1d5ed773fa2e71e099cac588703b590336", size = 3454567, upload-time = "2025-02-15T04:02:56.443Z" },
+    { url = "https://files.pythonhosted.org/packages/42/86/dabda8fbcb1b00bcfb0003c3776e8ade1aa7b413dff0a2c08f457dace22f/lightgbm-4.6.0-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:cb19b5afea55b5b61cbb2131095f50538bd608a00655f23ad5d25ae3e3bf1c8d", size = 3569831, upload-time = "2025-02-15T04:02:58.925Z" },
+    { url = "https://files.pythonhosted.org/packages/5e/23/f8b28ca248bb629b9e08f877dd2965d1994e1674a03d67cd10c5246da248/lightgbm-4.6.0-py3-none-win_amd64.whl", hash = "sha256:37089ee95664b6550a7189d887dbf098e3eadab03537e411f52c63c121e3ba4b", size = 1451509, upload-time = "2025-02-15T04:03:01.515Z" },
 ]
 
 [[package]]

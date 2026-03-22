@@ -45,7 +45,7 @@ dependencies = [
     "nltk~=3.5",
     "jieba~=0.42",
     "sentence-transformers>=3.0.0",
-    "lightgbm~=4.2.0",
+    "lightgbm~=4.6.0",
     "diskcache~=5.2.1",
     "simalign~=0.4",
     "gliner2",
