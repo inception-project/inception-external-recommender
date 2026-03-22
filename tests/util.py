@@ -16,7 +16,7 @@
 from typing import List
 
 from cassis import Cas, TypeSystem, merge_typesystems, load_typesystem, load_cas_from_xmi
-from cassis.typesystem import TYPE_NAME_STRING, TYPE_NAME_BOOLEAN
+from cassis.typesystem import TYPE_NAME_STRING, TYPE_NAME_BOOLEAN, TYPE_NAME_DOUBLE
 
 from sklearn.datasets import fetch_20newsgroups
 
@@ -115,4 +115,6 @@ def build_typesystem() -> TypeSystem:
     PredictedType = typesystem.create_type(PREDICTED_TYPE)
     typesystem.create_feature(PredictedType, PREDICTED_FEATURE, TYPE_NAME_STRING)
     typesystem.create_feature(PredictedType, IS_PREDICTION, TYPE_NAME_BOOLEAN)
+    # add a score feature for predictions (double) to support confidence values
+    typesystem.create_feature(PredictedType, f"{PREDICTED_FEATURE}_score", TYPE_NAME_DOUBLE)
     return typesystem
